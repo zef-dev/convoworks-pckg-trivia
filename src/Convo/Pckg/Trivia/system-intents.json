@@ -1,0 +1,338 @@
+{
+    "LetterAnswerIntent": [
+        {
+            "platforms": [
+                "dialogflow",
+                "amazon"
+            ],
+            "definition": {
+                "name": "LetterAnswerIntent",
+                "type": "custom",
+                "utterances": [
+                    {
+                        "raw": "is it a",
+                        "model": [
+                            {
+                                "text": "is it"
+                            },
+                            {
+                                "text": "a",
+                                "type": "@convo-trivia.letter",
+                                "slot_value": "letter"
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "maybe a",
+                        "model": [
+                            {
+                                "text": "maybe"
+                            },
+                            {
+                                "text": "a",
+                                "type": "@convo-trivia.letter",
+                                "slot_value": "letter"
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "a",
+                        "model": [
+                            {
+                                "text": "a",
+                                "type": "@convo-trivia.letter",
+                                "slot_value": "letter"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ],
+    "AnswerFallbackA": [
+        {
+            "platforms": [
+                "dialogflow",
+                "amazon"
+            ],
+            "definition": {
+                "name": "AnswerFallbackA",
+                "type": "custom",
+                "utterances": [
+                    {
+                        "raw": "hey",
+                        "model": [
+                            {
+                                "text": "hey"
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "it's hey",
+                        "model": [
+                            {
+                                "text": "it's hey"
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "is it hey",
+                        "model": [
+                            {
+                                "text": "is it hey"
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "the answer is hey",
+                        "model": [
+                            {
+                                "text": "the answer is hey"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ], 
+    "AnswerFallbackB": [
+        {
+            "platforms": [
+                "dialogflow",
+                "amazon"
+            ],
+            "definition": {
+  "name": "AnswerFallbackB",
+  "type": "custom",
+  "utterances": [
+    {
+      "raw": "bee",
+      "model": [
+        {
+          "text": "bee"
+        }
+      ]
+    },
+    {
+      "raw": "it's bee",
+      "model": [
+        {
+          "text": "it's bee"
+        }
+      ]
+    },
+    {
+      "raw": "is it bee",
+      "model": [
+        {
+          "text": "is it bee"
+        }
+      ]
+    },
+    {
+      "raw": "the answer is bee",
+      "model": [
+        {
+          "text": "the answer is bee"
+        }
+      ]
+    }
+  ]
+}
+        }
+    ], 
+    "AnswerFallbackC": [
+        {
+            "platforms": [
+                "dialogflow",
+                "amazon"
+            ],
+            "definition": {
+  "name": "AnswerFallbackC",
+  "type": "custom",
+  "utterances": [
+    {
+      "raw": "see",
+      "model": [
+        {
+          "text": "see"
+        }
+      ]
+    },
+    {
+      "raw": "it's see",
+      "model": [
+        {
+          "text": "it's see"
+        }
+      ]
+    },
+    {
+      "raw": "is it see",
+      "model": [
+        {
+          "text": "is it see"
+        }
+      ]
+    },
+    {
+      "raw": "the answer is see",
+      "model": [
+        {
+          "text": "the answer is see"
+        }
+      ]
+    }
+  ]
+}
+        }
+    ], 
+    "AnswerFallbackD": [
+        {
+            "platforms": [
+                "dialogflow",
+                "amazon"
+            ],
+            "definition": {
+  "name": "AnswerFallbackD",
+  "type": "custom",
+  "utterances": [
+    {
+      "raw": "die",
+      "model": [
+        {
+          "text": "die"
+        }
+      ]
+    },
+    {
+      "raw": "it's die",
+      "model": [
+        {
+          "text": "it's die"
+        }
+      ]
+    },
+    {
+      "raw": "is it die",
+      "model": [
+        {
+          "text": "is it die"
+        }
+      ]
+    },
+    {
+      "raw": "the answer is die",
+      "model": [
+        {
+          "text": "the answer is die"
+        }
+      ]
+    }
+  ]
+}
+        }
+    ],
+     "GiveAnswerIntent": [
+        {
+            "platforms": [
+                "dialogflow",
+                "amazon"
+            ],
+            "definition": {
+  "name": "GiveAnswerIntent",
+  "type": "custom",
+  "utterances": [
+    {
+      "raw": "answer",
+      "model": [
+        {
+          "text": "answer",
+          "type": "@convo-core.any",
+          "slot_value": "answer"
+        }
+      ]
+    },
+    {
+      "raw": "is it maybe answer",
+      "model": [
+        {
+          "text": "is it maybe"
+        },
+        {
+          "text": "answer",
+          "type": "@convo-core.any",
+          "slot_value": "answer"
+        }
+      ]
+    },
+    {
+      "raw": "is it answer",
+      "model": [
+        {
+          "text": "is it"
+        },
+        {
+          "text": "answer",
+          "type": "@convo-core.any",
+          "slot_value": "answer"
+        }
+      ]
+    },
+    {
+      "raw": "a answer",
+      "model": [
+        {
+          "text": "a"
+        },
+        {
+          "text": "answer",
+          "type": "@convo-core.any",
+          "slot_value": "answer"
+        }
+      ]
+    },
+    {
+      "raw": "b answer",
+      "model": [
+        {
+          "text": "b"
+        },
+        {
+          "text": "answer",
+          "type": "@convo-core.any",
+          "slot_value": "answer"
+        }
+      ]
+    },
+    {
+      "raw": "c answer",
+      "model": [
+        {
+          "text": "c"
+        },
+        {
+          "text": "answer",
+          "type": "@convo-core.any",
+          "slot_value": "answer"
+        }
+      ]
+    },
+    {
+      "raw": "d answer",
+      "model": [
+        {
+          "text": "d"
+        },
+        {
+          "text": "answer",
+          "type": "@convo-core.any",
+          "slot_value": "answer"
+        }
+      ]
+    }
+  ]
+}
+        }
+    ]
+}

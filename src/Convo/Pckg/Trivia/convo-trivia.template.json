@@ -1,0 +1,1480 @@
+{
+    "template_id" : "mini",
+    "name" : "Mini Film Trivia",
+    "description" : "Template for film trivia quiz",
+    "service" : {
+        "convo_service_version": 27,
+        "properties": [],
+        "packages": [
+          "convo-core",
+          "convo-trivia",
+          "convo-filesystem"
+        ],
+        "configurations": [],
+        "contexts": [],
+        "variables": {
+          "SERVICE_NAME": "Mini Film Trivia",
+          "TOTAL_QUESTIONS": "4",
+          "FILM": "11"
+        },
+        "fragments": [
+        {
+            "class": "\\Convo\\Pckg\\Core\\Elements\\ElementsFragment",
+            "namespace": "convo-core",
+            "properties": {
+                "fragment_id": "Load_Questions",
+                "name": "Load Questions",
+                "elements": [
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\SetParamElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "scope_type": "installation",
+                            "properties": {
+                                "questions[]": "${[]}"
+                            },
+                            "_component_id": "7f622cbd-4efb-7207-2e4b-50b99af4c682"
+                        }
+                    },
+                    {
+                        "class": "\\Convo\\Pckg\\Filesystem\\Elements\\JsonReader",
+                        "namespace": "convo-filesystem",
+                        "properties": {
+                            "scope_type": "session",
+                            "url": "https:\/\/opentdb.com\/api.php?amount=${TOTAL_QUESTIONS}&category=${FILM}&type=multiple",
+                            "var": "trivia",
+                            "decode": true,
+                            "_component_id": "zo1j5yhv-weqp-l7kg-49w8-ko1zclqkgqnf"
+                        }
+                    },
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\CommentElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "comment": "Check if the API response code is valid",
+                            "_component_id": "743c38cb-6779-d7a6-9f21-099ecd7db22c"
+                        }
+                    },
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\IfElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "test": "${trivia.response_code == 0}",
+                            "then": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\LoopElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "data_collection": "${trivia.results}",
+                                        "item": "item",
+                                        "elements": [
+                                            {
+                                                "class": "\\Convo\\Pckg\\Core\\Elements\\CommentElement",
+                                                "namespace": "convo-core",
+                                                "properties": {
+                                                    "comment": "Initialize questions and correct answer",
+                                                    "_component_id": "03e95f57-03e5-06eb-fb97-b6d8f4efda9d"
+                                                }
+                                            },
+                                            {
+                                                "class": "\\Convo\\Pckg\\Core\\Elements\\SetParamElement",
+                                                "namespace": "convo-core",
+                                                "properties": {
+                                                    "scope_type": "installation",
+                                                    "properties": {
+                                                        "questions[${item.index}][\"question\"]": "${decode_special_chars( item.value.question)}",
+                                                        "letters": "${array_shuffle(['a', 'b', 'c', 'd'])}",
+                                                        "questions[${item.index}][\"answers\"][0][\"answer\"]": "${decode_special_chars( item.value.correct_answer)}",
+                                                        "questions[${item.index}][\"answers\"][0][\"letter\"]": "${letters[0]}",
+                                                        "questions[${item.index}][\"correct\"]": "${letters[0]}",
+                                                        "questions[${item.index}][\"correct_answer\"]": "${decode_special_chars( item.value.correct_answer)}"
+                                                    },
+                                                    "_component_id": "225fb1aa-d0d8-d3f5-7f5c-e8a26de3d0a8"
+                                                }
+                                            },
+                                            {
+                                                "class": "\\Convo\\Pckg\\Core\\Elements\\CommentElement",
+                                                "namespace": "convo-core",
+                                                "properties": {
+                                                    "comment": "Initialize incorrect answers",
+                                                    "_component_id": "46e6cc72-4676-3eab-2e67-dc1a2ed95e1b"
+                                                }
+                                            },
+                                            {
+                                                "class": "\\Convo\\Pckg\\Core\\Elements\\LoopElement",
+                                                "namespace": "convo-core",
+                                                "properties": {
+                                                    "data_collection": "${item.value.incorrect_answers}",
+                                                    "item": "incorrect",
+                                                    "elements": [
+                                                        {
+                                                            "class": "\\Convo\\Pckg\\Core\\Elements\\SetParamElement",
+                                                            "namespace": "convo-core",
+                                                            "properties": {
+                                                                "scope_type": "installation",
+                                                                "properties": {
+                                                                    "questions[${item.index}][\"answers\"][${incorrect.index + 1}][\"answer\"]": "${decode_special_chars( incorrect.value)}",
+                                                                    "questions[${item.index}][\"answers\"][${incorrect.index + 1}][\"letter\"]": "${letters[incorrect.index + 1]}"
+                                                                },
+                                                                "_component_id": "c55a2f67-ac0b-9bfe-470f-fe44d61b8672"
+                                                            }
+                                                        }
+                                                    ],
+                                                    "offset": null,
+                                                    "limit": null,
+                                                    "_component_id": "c6d89f2f-97df-0903-83f9-cee4028baa0c",
+                                                    "name": "LOOP through incorrect answers"
+                                                }
+                                            },
+                                            {
+                                                "class": "\\Convo\\Pckg\\Core\\Elements\\CommentElement",
+                                                "namespace": "convo-core",
+                                                "properties": {
+                                                    "comment": "Sort question answers by letter",
+                                                    "_component_id": "0ea2595f-f27d-2b70-213f-706d9698932f"
+                                                }
+                                            },
+                                            {
+                                                "class": "\\Convo\\Pckg\\Core\\Elements\\SetParamElement",
+                                                "namespace": "convo-core",
+                                                "properties": {
+                                                    "scope_type": "installation",
+                                                    "properties": {
+                                                        "questions[${item.index}][\"answers\"]": "${array_sort_by_field(questions[item.index][\"answers\"], 'letter')}"
+                                                    },
+                                                    "_component_id": "2969a386-cb0c-2ea3-c11c-de448f2e98ec"
+                                                }
+                                            },
+                                            {
+                                                "class": "\\Convo\\Pckg\\Core\\Elements\\CommentElement",
+                                                "namespace": "convo-core",
+                                                "properties": {
+                                                    "comment": "Replace all instances of & with and",
+                                                    "_component_id": "db3d6e45-ef72-b43f-a8f6-b034acc42c2e"
+                                                }
+                                            },
+                                            {
+                                                "class": "\\Convo\\Pckg\\Core\\Elements\\SetParamElement",
+                                                "namespace": "convo-core",
+                                                "properties": {
+                                                    "scope_type": "installation",
+                                                    "properties": {
+                                                        "questions[${item.index}][\"question\"]": "${str_replace('&', 'and', questions[item.index][\"question\"])}"
+                                                    },
+                                                    "_component_id": "fe2ed64e-c0c1-d4fa-aa8e-3bdf44843a30"
+                                                }
+                                            }
+                                        ],
+                                        "offset": null,
+                                        "limit": null,
+                                        "_component_id": "96107be3-2df4-843d-9f01-988732f1d1aa",
+                                        "name": "LOOP through questions and correct answers"
+                                    }
+                                }
+                            ],
+                            "else_if": [],
+                            "else": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "default",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "I'm sorry, something went wrong. Please try again later.",
+                                        "_component_id": "4205c375-da89-5965-993c-ceda82076b98"
+                                    }
+                                },
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\EndSessionElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "_component_id": "3b493599-95e5-4a0f-6b0e-a8ccc066eaed"
+                                    }
+                                }
+                            ],
+                            "_component_id": "f19835d5-00e0-3078-d6fc-7a0f07f194c0"
+                        }
+                    }
+                ],
+                "_component_id": "37f1469a-1720-0893-5cb8-8caf2658e2bc"
+            }
+        },
+        {
+            "class": "\\Convo\\Pckg\\Core\\Elements\\ElementsFragment",
+            "namespace": "convo-core",
+            "properties": {
+                "fragment_id": "Init_Score",
+                "name": "Init Score",
+                "elements": [
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\SetParamElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "scope_type": "installation",
+                            "properties": {
+                                "score": "0"
+                            },
+                            "_component_id": "c8696f87-9c09-30f0-3660-d0ab973da572"
+                        }
+                    }
+                ],
+                "_component_id": "5244cc70-84b1-7bb7-34a1-2b64076663fe"
+            }
+        },
+        {
+            "class": "\\Convo\\Pckg\\Core\\Processors\\ProcessorFragment",
+            "namespace": "convo-core",
+            "properties": {
+                "fragment_id": "My_new_process_fragment",
+                "name": "Start Over",
+                "processors": [
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Processors\\SimpleProcessor",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "ok": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "default",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "Are you sure you want to start over?",
+                                        "_component_id": "7a73db02-d6cd-e693-01ac-ed6ef3360e51"
+                                    }
+                                }
+                            ],
+                            "request_filters": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Filters\\IntentRequestFilter",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "readers": [
+                                            {
+                                                "class": "\\Convo\\Pckg\\Core\\Filters\\ConvoIntentReader",
+                                                "namespace": "convo-core",
+                                                "properties": {
+                                                    "intent": "StartOverIntent",
+                                                    "values": [],
+                                                    "rename": [],
+                                                    "_component_id": "08312d9f-2d23-d9c1-ed37-1571c44ed218"
+                                                }
+                                            }
+                                        ],
+                                        "_component_id": "28c803ba-38ce-9b5c-4b2f-d761446f2a20"
+                                    }
+                                }
+                            ],
+                            "_component_id": "c2256c63-92b8-aa24-15e7-69f25c41290d",
+                            "name": "Start over"
+                        }
+                    },
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Processors\\YesNoProcessor",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "yes": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "default",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "OK. Restarting the game.",
+                                        "_component_id": "7d539b0b-6af9-237c-9d3f-35d8c2710acc"
+                                    }
+                                },
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\GoToElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "value": "Home",
+                                        "next": false,
+                                        "_component_id": "6fc9b909-fa7c-ba56-48f5-16c2cffc1782"
+                                    }
+                                }
+                            ],
+                            "no": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "default",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "All right. Resuming the game.",
+                                        "_component_id": "0e290028-113e-1b12-94f2-6600fbe5bdab"
+                                    }
+                                },
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\ReadBlockAgainElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "_component_id": "488631bf-d2d8-cdef-354b-5b74ed88a032"
+                                    }
+                                }
+                            ],
+                            "_component_id": "7452c54e-26d8-640f-332c-fc4dc9d58bff"
+                        }
+                    }
+                ],
+                "_component_id": "034c12b2-391e-d708-b067-cbd2f146b955"
+            }
+        },
+        {
+            "class": "\\Convo\\Pckg\\Core\\Elements\\ElementsFragment",
+            "namespace": "convo-core",
+            "properties": {
+                "fragment_id": "Delete_Old_Questions",
+                "name": "Delete Old Questions",
+                "elements": [
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\SetParamElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "scope_type": "installation",
+                            "properties": {
+                                "questions": "${null}"
+                            },
+                            "_component_id": "4a0d81bf-4e72-943d-5f48-ad0e8d33eedb"
+                        }
+                    }
+                ],
+                "_component_id": "fb0885b2-b78a-4c8c-ccfe-605318ddf697"
+            }
+        }
+    ],
+        "entities": [],
+        "intents": [
+          {
+            "name": "JustNumberIntent",
+            "type": "custom",
+            "utterances": [
+              {
+                "raw": "one",
+                "model": [
+                  {
+                    "text": "one",
+                    "type": "@convo-core.number",
+                    "slot_value": "justNumber"
+                  }
+                ]
+              }
+            ]
+        },
+          {
+            "name": "AnswerGeoIntent",
+            "type": "custom",
+            "utterances": [
+              {
+                "raw": "country",
+                "model": [
+                  {
+                    "text": "country",
+                    "type": "@convo-core.country",
+                    "slot_value": "country"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "StartOverIntent",
+            "type": "custom",
+            "utterances": [
+              {
+                "raw": "start the game over",
+                "model": [
+                  {
+                    "text": "start the game over"
+                  }
+                ]
+              },
+              {
+                "raw": "start over",
+                "model": [
+                  {
+                    "text": "start over"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "blocks": [
+        {
+            "class": "\\Convo\\Pckg\\Core\\Elements\\ConversationBlock",
+            "namespace": "convo-core",
+            "properties": {
+                "block_id": "__sessionStart",
+                "elements": [
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\CommentElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "comment": "Check if the player interrupted the last game or start the game from the beginning",
+                            "_component_id": "3bcb36e1-736f-19c0-c5dd-5bab0ddb606a"
+                        }
+                    },
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\IfElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "test": "${questions !== null}",
+                            "then": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\CommentElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "comment": "Don't reset the trivia block variables from the last game",
+                                        "_component_id": "3d0a212e-916c-1d44-8f63-ce166cf6fead"
+                                    }
+                                },
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\SetParamElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "scope_type": "request",
+                                        "properties": {
+                                            "skip_reset": "${true}"
+                                        },
+                                        "_component_id": "46c132dd-3e15-85ea-f18a-b0d00486d353"
+                                    }
+                                },
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "default",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "Resuming where you left off.",
+                                        "_component_id": "fef0af3d-5889-5956-666a-a2ac4af07746"
+                                    }
+                                },
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "default",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "To start the game over, say 'Start Over' at any time.",
+                                        "_component_id": "6eb0e247-3427-fc45-219d-e2a69dc286f4"
+                                    }
+                                },
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\GoToElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "value": "My_new_conversation_step",
+                                        "next": false,
+                                        "_component_id": "4b35ae8e-f591-028e-2d4b-fcd400dc52b3"
+                                    }
+                                }
+                            ],
+                            "else_if": [],
+                            "else": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "default",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "Welcome to ${SERVICE_NAME}.",
+                                        "_component_id": "f80247db-e578-7f4a-5c2f-6c8ed325d03c"
+                                    }
+                                },
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\GoToElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "value": "Home",
+                                        "next": false,
+                                        "_component_id": "e2177a98-e77e-d12e-82bb-a0727a5cee53"
+                                    }
+                                }
+                            ],
+                            "_component_id": "9fdb7d59-3afe-b199-b6a9-171f3be39d2d"
+                        }
+                    }
+                ],
+                "processors": [],
+                "fallback": [],
+                "_component_id": "afaeff2b-ca26-46ea-5f0b-ba8dee39e543",
+                "role": "session_start",
+                "name": "Session start"
+            }
+        },
+        {
+            "class": "\\Convo\\Pckg\\Core\\Elements\\ConversationBlock",
+            "namespace": "convo-core",
+            "properties": {
+                "block_id": "__serviceProcessors",
+                "elements": [],
+                "processors": [
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Processors\\SimpleProcessor",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "ok": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "default",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "Here is the full set of instructions.",
+                                        "_component_id": "385beb43-687d-2a3a-a7d3-096987205bed"
+                                    }
+                                },
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "default",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "To start the game over, you can say 'Start Over' at any time.",
+                                        "_component_id": "4251049e-fb99-a46f-0fa8-59d6322e77f4"
+                                    }
+                                },
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "default",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "If you want me to repeat the question, just say 'Repeat',",
+                                        "_component_id": "49b45ad1-972c-bba0-393f-6499893e3d40"
+                                    }
+                                },
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "default",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "If you're experiencing issues with the correct answer recognition, please answer just using the letter choice.",
+                                        "_component_id": "bf60144f-033b-0b20-b1f8-ee231adf4cbc"
+                                    }
+                                },
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "default",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "To exit the quiz at any time, use the words 'Stop' or 'Cancel'.",
+                                        "_component_id": "0ae1e8e2-68be-44e4-2aa2-606fd4eb52fc"
+                                    }
+                                }
+                            ],
+                            "request_filters": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Filters\\IntentRequestFilter",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "readers": [
+                                            {
+                                                "class": "\\Convo\\Pckg\\Core\\Filters\\ConvoIntentReader",
+                                                "namespace": "convo-core",
+                                                "properties": {
+                                                    "intent": "convo-core.HelpIntent",
+                                                    "values": [],
+                                                    "rename": [],
+                                                    "_component_id": "6ea3bc62-8178-da7f-e5ad-318bda9bcbf1"
+                                                }
+                                            }
+                                        ],
+                                        "_component_id": "2ce6c0c4-4e72-06ce-ba9f-74fe01f4a90a"
+                                    }
+                                }
+                            ],
+                            "_component_id": "89fe831f-4d5f-236e-2d58-582babdbad38",
+                            "name": "Help"
+                        }
+                    },
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Processors\\SimpleProcessor",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "ok": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "default",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "Thank you for playing.",
+                                        "_component_id": "5341be89-fee9-65c6-3407-309cba25bd54"
+                                    }
+                                },
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\ElementRandomizer",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "mode": "wild",
+                                        "elements": [
+                                            {
+                                                "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                                "namespace": "convo-core",
+                                                "properties": {
+                                                    "type": "default",
+                                                    "alexa_domain": "normal",
+                                                    "alexa_emotion": "neutral",
+                                                    "alexa_emotion_intensity": "medium",
+                                                    "text": "Catch you later!",
+                                                    "_component_id": "8ca7f68d-2e3b-fb63-4b14-6295171f631c"
+                                                }
+                                            },
+                                            {
+                                                "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                                "namespace": "convo-core",
+                                                "properties": {
+                                                    "type": "default",
+                                                    "alexa_domain": "normal",
+                                                    "alexa_emotion": "neutral",
+                                                    "alexa_emotion_intensity": "medium",
+                                                    "text": "Bye!",
+                                                    "_component_id": "01e9beb4-fa2a-99b3-cce9-49a65863ef95"
+                                                }
+                                            },
+                                            {
+                                                "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                                "namespace": "convo-core",
+                                                "properties": {
+                                                    "type": "default",
+                                                    "alexa_domain": "normal",
+                                                    "alexa_emotion": "neutral",
+                                                    "alexa_emotion_intensity": "medium",
+                                                    "text": "Have a good one!",
+                                                    "_component_id": "719d5ef9-a8ff-e9a3-eb76-48e55618fd9d"
+                                                }
+                                            }
+                                        ],
+                                        "namespace": null,
+                                        "scope_type": "installation",
+                                        "_component_id": "5f200f77-63d6-816a-5071-e8d39e81d8f2"
+                                    }
+                                },
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\EndSessionElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "_component_id": "b96eb6f2-66fa-0936-9390-df408d0e9170"
+                                    }
+                                }
+                            ],
+                            "request_filters": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Filters\\IntentRequestFilter",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "readers": [
+                                            {
+                                                "class": "\\Convo\\Pckg\\Core\\Filters\\ConvoIntentReader",
+                                                "namespace": "convo-core",
+                                                "properties": {
+                                                    "intent": "convo-core.CancelIntent",
+                                                    "values": [],
+                                                    "rename": [],
+                                                    "_component_id": "4136cced-551e-11bf-86c2-90c029b43e7a"
+                                                }
+                                            },
+                                            {
+                                                "class": "\\Convo\\Pckg\\Core\\Filters\\ConvoIntentReader",
+                                                "namespace": "convo-core",
+                                                "properties": {
+                                                    "intent": "convo-core.StopIntent",
+                                                    "values": [],
+                                                    "rename": [],
+                                                    "_component_id": "89915915-f491-2517-94a4-153e9b0c4ead"
+                                                }
+                                            }
+                                        ],
+                                        "_component_id": "cfd3100e-ab4a-95fb-329f-3157fee01342"
+                                    }
+                                }
+                            ],
+                            "_component_id": "ac200006-b651-fcbb-59f4-6a66e5c929a1",
+                            "name": "Cancel and Stop"
+                        }
+                    },
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Processors\\SimpleProcessor",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "ok": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\GoToElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "value": "Start_Over_Block",
+                                        "next": false,
+                                        "_component_id": "1752b0b6-a69a-0a4e-d1b3-563a7d7efb7c"
+                                    }
+                                }
+                            ],
+                            "request_filters": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Filters\\IntentRequestFilter",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "readers": [
+                                            {
+                                                "class": "\\Convo\\Pckg\\Core\\Filters\\ConvoIntentReader",
+                                                "namespace": "convo-core",
+                                                "properties": {
+                                                    "intent": "StartOverIntent",
+                                                    "values": [],
+                                                    "rename": [],
+                                                    "_component_id": "85aa0ab5-38ab-a6f5-2d68-a1ed1dc934ce"
+                                                }
+                                            }
+                                        ],
+                                        "_component_id": "e111448b-2bc9-c901-389a-77eb7ff89a8d"
+                                    }
+                                }
+                            ],
+                            "_component_id": "853ce2bd-f495-a353-d300-1a3606bdad0b",
+                            "name": "Start over"
+                        }
+                    }
+                ],
+                "fallback": [],
+                "_component_id": "2ab66991-c0d6-f8a9-847d-a7a9352c84e6",
+                "role": "service_processors",
+                "name": "Service processors"
+            }
+        },
+        {
+            "class": "\\Convo\\Pckg\\Core\\Elements\\ConversationBlock",
+            "namespace": "convo-core",
+            "properties": {
+                "block_id": "Home",
+                "name": "Home",
+                "elements": [
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "type": "default",
+                            "alexa_domain": "normal",
+                            "alexa_emotion": "neutral",
+                            "alexa_emotion_intensity": "medium",
+                            "text": "To repeat the question just say 'Repeat'.",
+                            "_component_id": "78dad8dc-87c9-9e8d-a10a-7840aa763d8e"
+                        }
+                    },
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "type": "default",
+                            "alexa_domain": "normal",
+                            "alexa_emotion": "neutral",
+                            "alexa_emotion_intensity": "medium",
+                            "text": "Here's the first question:",
+                            "_component_id": "151d921b-4333-394f-864e-fa24eed30920"
+                        }
+                    },
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\CommentElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "comment": "Reset trivia block parameters",
+                            "_component_id": "3bc20cad-e9bc-6fdd-fa6e-9467b5c34e78"
+                        }
+                    },
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\ReadElementsFragment",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "fragment_id": "Load_Questions",
+                            "_component_id": "0e7241a3-fbf0-c01e-d70c-b45cc8b41fbc"
+                        }
+                    },
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\ReadElementsFragment",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "fragment_id": "Init_Score",
+                            "_component_id": "ce3da68f-450e-9958-55b5-7b60e543fb71"
+                        }
+                    },
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\GoToElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "value": "My_new_conversation_step",
+                            "next": false,
+                            "_component_id": "2380880b-3f19-943a-2426-304c605deae3"
+                        }
+                    }
+                ],
+                "processors": [],
+                "fallback": [],
+                "_component_id": "3a11b78e-7afb-5293-6f1e-c902693886c7"
+            }
+        },
+        {
+            "class": "\\Convo\\Pckg\\Trivia\\TriviaRoundBlock",
+            "namespace": "convo-trivia",
+            "properties": {
+                "block_id": "My_new_conversation_step",
+                "name": "Rounds",
+                "questions": "${questions}",
+                "status_var": "status",
+                "correct_letter": "${status.question.correct}",
+                "correct_answer": "${status.question.correct_answer}",
+                "elements": [
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\CommentElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "comment": "Get questions and answers from the status variable",
+                            "_component_id": "302e1a78-df85-cfd9-823e-bf6ec014ee77"
+                        }
+                    },
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "type": "default",
+                            "alexa_domain": "normal",
+                            "alexa_emotion": "neutral",
+                            "alexa_emotion_intensity": "medium",
+                            "text": "${status.question.question}",
+                            "_component_id": "7733fef8-9cb8-80bf-ec47-4343321ed3dc"
+                        }
+                    },
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "type": "reprompt",
+                            "alexa_domain": "normal",
+                            "alexa_emotion": "neutral",
+                            "alexa_emotion_intensity": "medium",
+                            "text": "${status.question.question}",
+                            "_component_id": "16dfd8bc-d746-32fa-7e3c-f29f2035350a"
+                        }
+                    },
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\LoopElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "data_collection": "${status.question.answers}",
+                            "item": "answer",
+                            "elements": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "default",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "${strtoupper(answer.value.letter)}. ${answer.value.answer}",
+                                        "_component_id": "c979c2ff-019b-b7a7-ea2c-e48bdc484f99"
+                                    }
+                                },
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "reprompt",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "${strtoupper(answer.value.letter)}. ${answer.value.answer}",
+                                        "_component_id": "7ca50c33-5be4-2b39-0ef5-4b62207fe8b3"
+                                    }
+                                }
+                            ],
+                            "offset": null,
+                            "limit": null,
+                            "_component_id": "51b4ac01-72b3-5d13-e195-173763956e68",
+                            "name": "Read all letters and  answers"
+                        }
+                    }
+                ],
+                "answer_ok": [
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\ElementRandomizer",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "mode": "wild",
+                            "elements": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "default",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "Correct.",
+                                        "_component_id": "8b0459eb-5d6c-61eb-2799-9ec5b25b6f16"
+                                    }
+                                },
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "default",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "That's right.",
+                                        "_component_id": "1fe061d1-ca03-8b54-a5cc-82d35982d4ad"
+                                    }
+                                },
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "default",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "That's correct.",
+                                        "_component_id": "d16a15fe-423a-d917-568d-a9197a5ad910"
+                                    }
+                                }
+                            ],
+                            "namespace": null,
+                            "scope_type": "installation",
+                            "_component_id": "b018b023-8b8f-c274-5e6d-7e4cb017eef0",
+                            "name": "Randomize output for correct answer"
+                        }
+                    },
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\CommentElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "comment": "Increase score if the correct answer given",
+                            "_component_id": "baa5e692-9009-92b2-1588-12c55705fdfd"
+                        }
+                    },
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\SetParamElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "scope_type": "installation",
+                            "properties": {
+                                "score": "${score + 1}"
+                            },
+                            "_component_id": "02dd3bb2-1974-e72f-f9a6-14858fc5ee11"
+                        }
+                    }
+                ],
+                "answer_nok": [
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\ElementRandomizer",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "mode": "wild",
+                            "elements": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "default",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "Wrong!",
+                                        "_component_id": "186fc08d-8cbb-a912-8a21-40ed32ce4c28"
+                                    }
+                                },
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "default",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "Not quite right.",
+                                        "_component_id": "0b5f62a6-51ec-304a-a411-66d20c725df9"
+                                    }
+                                }
+                            ],
+                            "namespace": null,
+                            "scope_type": "installation",
+                            "_component_id": "19044085-0e72-c276-6001-40aa08ea9f21",
+                            "name": "Randomize output for wrong answer"
+                        }
+                    },
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "type": "default",
+                            "alexa_domain": "normal",
+                            "alexa_emotion": "neutral",
+                            "alexa_emotion_intensity": "medium",
+                            "text": "The correct answer is ${strtoupper(status.question.correct)}, ${status.question.correct_answer}",
+                            "_component_id": "c4d27745-d946-e97a-be63-4869b1912e92"
+                        }
+                    }
+                ],
+                "additional_readers": [
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Filters\\ConvoIntentReader",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "intent": "AnswerGeoIntent",
+                            "values": [],
+                            "rename": [],
+                            "_component_id": "3863edef-e30b-4d25-0af5-3531230a4222"
+                        }
+                    }
+                ],
+                "processors": [
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Processors\\SimpleProcessor",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "ok": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\ReadBlockAgainElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "_component_id": "718cf252-3fc0-b44c-19df-2d1bfc1972d0"
+                                    }
+                                }
+                            ],
+                            "request_filters": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Filters\\IntentRequestFilter",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "readers": [
+                                            {
+                                                "class": "\\Convo\\Pckg\\Core\\Filters\\ConvoIntentReader",
+                                                "namespace": "convo-core",
+                                                "properties": {
+                                                    "intent": "convo-core.RepeatIntent",
+                                                    "values": [],
+                                                    "rename": [],
+                                                    "_component_id": "7c8532ef-2954-f896-2e18-b0529f6ae0f4"
+                                                }
+                                            }
+                                        ],
+                                        "_component_id": "ded24c86-7ee8-4845-e3b9-531a0be5ff7b"
+                                    }
+                                }
+                            ],
+                            "_component_id": "f67cc475-8676-afba-0b82-f30ea76c9168",
+                            "name": "Run current block again"
+                        }
+                    }
+                ],
+                "fallback": [
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "type": "default",
+                            "alexa_domain": "normal",
+                            "alexa_emotion": "neutral",
+                            "alexa_emotion_intensity": "medium",
+                            "text": "I didn't understand that. Please repeat your answer.",
+                            "_component_id": "724f504a-8411-85e2-7b56-d255a4f67c6f"
+                        }
+                    },
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\ReadBlockAgainElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "_component_id": "3ac2813b-f987-f3e4-f9a4-6546a4055144"
+                        }
+                    }
+                ],
+                "done": [
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "type": "default",
+                            "alexa_domain": "normal",
+                            "alexa_emotion": "neutral",
+                            "alexa_emotion_intensity": "medium",
+                            "text": "That was the last question.",
+                            "_component_id": "fc4f67de-0bc1-656c-7985-6768e9ae0ede"
+                        }
+                    },
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\GoToElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "value": "Finish",
+                            "next": false,
+                            "_component_id": "fb027d50-acb0-f92a-7967-0d39bfe24e35"
+                        }
+                    }
+                ],
+                "skip_reset": "${skip_reset}",
+                "_component_id": "196fc5cb-74de-e593-eebb-bc9b0a2a290a"
+            }
+        },
+        {
+            "class": "\\Convo\\Pckg\\Core\\Elements\\ConversationBlock",
+            "namespace": "convo-core",
+            "properties": {
+                "block_id": "Finish",
+                "name": "Finish",
+                "elements": [
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\ReadElementsFragment",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "fragment_id": "Delete_Old_Questions",
+                            "_component_id": "f80b533a-ab68-a632-cdbf-f285e92c15da"
+                        }
+                    },
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\CommentElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "comment": "Score results in three variations",
+                            "_component_id": "6dc04bbe-c204-fe11-9710-ac8c43e678af"
+                        }
+                    },
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\IfElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "test": "${score == TOTAL_QUESTIONS}",
+                            "then": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "default",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "You got ${score} out of ${TOTAL_QUESTIONS} questions right. Congratulations!",
+                                        "_component_id": "0333a682-91ad-7190-4598-34f1d25422e0"
+                                    }
+                                }
+                            ],
+                            "else_if": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\ElseIfElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "test": "${score == 0}",
+                                        "then": [
+                                            {
+                                                "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                                "namespace": "convo-core",
+                                                "properties": {
+                                                    "type": "default",
+                                                    "alexa_domain": "normal",
+                                                    "alexa_emotion": "neutral",
+                                                    "alexa_emotion_intensity": "medium",
+                                                    "text": "Oh no! It seems you answered none of the questions correctly. Better luck next time.",
+                                                    "_component_id": "c5d9b8f1-2ab9-37a9-0744-226fb43226d4"
+                                                }
+                                            }
+                                        ],
+                                        "_component_id": "384263cf-0a51-c43a-a407-5c846bfc08d5"
+                                    }
+                                }
+                            ],
+                            "else": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "default",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "You got ${score} out of ${TOTAL_QUESTIONS} questions right.",
+                                        "_component_id": "94cb8b5e-874b-3880-fdfa-c16fb4717cdd"
+                                    }
+                                }
+                            ],
+                            "_component_id": "328bc56a-f931-2c56-8291-ad9587284386"
+                        }
+                    },
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "type": "default",
+                            "alexa_domain": "normal",
+                            "alexa_emotion": "neutral",
+                            "alexa_emotion_intensity": "medium",
+                            "text": "Do you want to play again?",
+                            "_component_id": "25a44b4f-95bd-eb55-fd7d-2f312802982b"
+                        }
+                    },
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "type": "reprompt",
+                            "alexa_domain": "normal",
+                            "alexa_emotion": "neutral",
+                            "alexa_emotion_intensity": "medium",
+                            "text": "Do you want to play again?",
+                            "_component_id": "334cb2b1-cc52-2e8a-8814-af61f4b45df0"
+                        }
+                    }
+                ],
+                "processors": [
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Processors\\YesNoProcessor",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "yes": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\GoToElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "value": "Home",
+                                        "next": false,
+                                        "_component_id": "8069166d-334c-895c-85b6-6c9e3f4db864"
+                                    }
+                                },
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "default",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "OK.",
+                                        "_component_id": "77d99a2f-ef5f-cad7-75ee-c135b095caf5"
+                                    }
+                                }
+                            ],
+                            "no": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "default",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "Thank you for playing.",
+                                        "_component_id": "b167938f-ee71-e308-f79e-1574d2b9f6bc"
+                                    }
+                                },
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\ElementRandomizer",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "mode": "wild",
+                                        "elements": [
+                                            {
+                                                "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                                "namespace": "convo-core",
+                                                "properties": {
+                                                    "type": "default",
+                                                    "alexa_domain": "normal",
+                                                    "alexa_emotion": "neutral",
+                                                    "alexa_emotion_intensity": "medium",
+                                                    "text": "Catch you later!",
+                                                    "_component_id": "0518d902-2612-e541-ef42-50c855e1e60e"
+                                                }
+                                            },
+                                            {
+                                                "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                                "namespace": "convo-core",
+                                                "properties": {
+                                                    "type": "default",
+                                                    "alexa_domain": "normal",
+                                                    "alexa_emotion": "neutral",
+                                                    "alexa_emotion_intensity": "medium",
+                                                    "text": "Bye!",
+                                                    "_component_id": "da839311-b8fc-0242-2e09-139f65270fba"
+                                                }
+                                            },
+                                            {
+                                                "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                                "namespace": "convo-core",
+                                                "properties": {
+                                                    "type": "default",
+                                                    "alexa_domain": "normal",
+                                                    "alexa_emotion": "neutral",
+                                                    "alexa_emotion_intensity": "medium",
+                                                    "text": "Have a good one!",
+                                                    "_component_id": "ac7358d1-2e69-c216-c0ef-2929b6374eb8"
+                                                }
+                                            }
+                                        ],
+                                        "namespace": null,
+                                        "scope_type": "installation",
+                                        "_component_id": "2309b447-fce8-7b4d-add1-4a8dd51bb1bd",
+                                        "name": "Randomize output for quitting the service"
+                                    }
+                                },
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\EndSessionElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "_component_id": "7d647412-25b2-f498-dea3-15cf3a2ac35f"
+                                    }
+                                }
+                            ],
+                            "_component_id": "20e61338-075b-a53a-77a5-77bd8a388aae"
+                        }
+                    }
+                ],
+                "fallback": [
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "type": "default",
+                            "alexa_domain": "normal",
+                            "alexa_emotion": "neutral",
+                            "alexa_emotion_intensity": "medium",
+                            "text": "I'm sorry, I didn't understand that. Do you want to play again?",
+                            "_component_id": "c8f186f6-8655-9aba-d5c6-cc91e1c58e54"
+                        }
+                    },
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "type": "reprompt",
+                            "alexa_domain": "normal",
+                            "alexa_emotion": "neutral",
+                            "alexa_emotion_intensity": "medium",
+                            "text": "Do you want to play again?",
+                            "_component_id": "ab7be1ae-1cb3-b630-9b28-eb309a80ab13"
+                        }
+                    }
+                ],
+                "_component_id": "9215861b-9790-0e8e-a233-8de74ec986f9"
+            }
+        },
+        {
+            "class": "\\Convo\\Pckg\\Core\\Elements\\ConversationBlock",
+            "namespace": "convo-core",
+            "properties": {
+                "block_id": "Start_Over_Block",
+                "name": "Start Over Block",
+                "elements": [
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "type": "default",
+                            "alexa_domain": "normal",
+                            "alexa_emotion": "neutral",
+                            "alexa_emotion_intensity": "medium",
+                            "text": "Are you sure you want to start over?",
+                            "_component_id": "5e71b7d9-e112-403d-ed48-fc25040dcd3d"
+                        }
+                    }
+                ],
+                "processors": [
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Processors\\YesNoProcessor",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "yes": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "default",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "OK. Restarting the game.",
+                                        "_component_id": "adfe5507-2545-5e75-9c1b-22277baa4b66"
+                                    }
+                                },
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\GoToElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "value": "Home",
+                                        "next": false,
+                                        "_component_id": "7842e51e-8202-592e-9852-1fc69cb27358"
+                                    }
+                                }
+                            ],
+                            "no": [
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "type": "default",
+                                        "alexa_domain": "normal",
+                                        "alexa_emotion": "neutral",
+                                        "alexa_emotion_intensity": "medium",
+                                        "text": "All right. Resuming the game.",
+                                        "_component_id": "0edcfe16-8736-144a-1bcd-9f9714398baf"
+                                    }
+                                },
+                                {
+                                    "class": "\\Convo\\Pckg\\Core\\Elements\\GoToElement",
+                                    "namespace": "convo-core",
+                                    "properties": {
+                                        "value": "state_previous",
+                                        "next": false,
+                                        "_component_id": "7826e86c-2414-ad56-55d3-baa79f037fbe"
+                                    }
+                                }
+                            ],
+                            "_component_id": "a6ba4b5b-b3d6-efbf-e3c3-35e0e1111b6a"
+                        }
+                    }
+                ],
+                "fallback": [
+                    {
+                        "class": "\\Convo\\Pckg\\Core\\Elements\\TextResponseElement",
+                        "namespace": "convo-core",
+                        "properties": {
+                            "type": "reprompt",
+                            "alexa_domain": "normal",
+                            "alexa_emotion": "neutral",
+                            "alexa_emotion_intensity": "medium",
+                            "text": "Are you sure you want to start over?",
+                            "append": false,
+                            "_component_id": "a985de2f-241e-ec07-b80b-afa8819c7414"
+                        }
+                    }
+                ],
+                "_component_id": "3a52b59c-1be8-aab9-3141-d920a888a234"
+            }
+        }
+    ]
+    }
+}
