@@ -1,0 +1,49 @@
+<div class="trivia-scores-help">
+    <h3>Trivia Scores</h3>
+
+    <p>Calculates rank based on score and user names, loops through collected information</p>
+
+    <h3>When to use?</h3>
+
+    <p>Only available in trivia package</p>
+
+    <h3>How to use: </h3>
+    <ol>
+        <li>Make sure you've got an array containing trivia multiple-choice questions, possible answers and the correct answer and letter for each question</li>
+        <li>If the game is a multiplayer, make sure you've got an array containing player <i>names</i> and <i>scores</i> (can be just initialized to zero)</li>
+        <li>In the <b>Questions</b> field enter the expression to evaluate the questions array, like this: <i>${questions}</i></li>
+        <li>if the game is a multiplayer, in the <b>Users</b> field enter the expression to evaluate the players array, otherwise, leave the field empty, for example: ${players}</li>
+        <li>In the <b>Status variable name</b> enter the name under which you'll be able to access individual array items, for example: <i>status</i></li>
+        <li>In the <b>Correct letter</b> field enter the status expression to evaluate the correct letter, for example: <i>${status.question.correctLetterKey}</i></li>
+        <li>In the <b>Correct answer</b> field enter the status expression to evaluate the correct answer, for example: <i>${status.question.correctAnswerKey}</i></li>
+        <li>You can set the <b>Skip reset</b> field to <i>true</i> (or an expression that evaluates to <i>true</i>) to skip resetting status variables after the iteration is interrupted, for example: <i>${some_var}</i></li>
+        <li>Block's main process phase and it's built-in intents are hidden, but you can add your own in the <b>Additional Intents</b> container</li>
+        <li>You can add processors that don't trigger loop iteration in the <b>Other Processors</b> container, for example, processor for repeating questions</li>
+        <li>To access current question, use this syntax: <i>${status.question.questionKey}</i></li>
+        <li>To access current question answers array, use this syntax: <i>${status.question.answersKey}</i></li>
+        <li>To access current question correct answer, use this syntax: <i>${status.question.correctAnswerKey}</i></li>
+        <li>To access current question correct letter, use this syntax: <i>${status.question.correctLetterKey}</i></li>
+        <li>(multiplayer) To access current player name, use this syntax: <i>${status.user.nameKey}</i></li>
+        <li>(multiplayer) To access current player name, use this syntax: <i>${status.user.scoreKey}</i></li>
+        <li>You can access current question index: <i>${status.question_index}</i></li>
+        <li>(multiplayer) You can access current user index: <i>${status.user_index}</i></li>
+        <li>To check if it's the last question, use this syntax: <i>${status.last_question}</i></li>
+
+    </ol>
+
+    <h3>Example of usage</h3>
+    <div>
+        <p>We have a multi-dimensional <b>questions</b> array in this format: questions[index]["question"], questions[index]["answers"][index]["answer"], questions[index]["correct_letter"] etc.</p>
+        <p>We also have a multi-dimensional <b>players</b> array in this format: players[index]["name"], players[index]["score"]</p>
+        <ul>
+            <li><b>Questions</b> <i>${questions}</i></li>
+            <li><b>Users:</b> <i>${players}</i></li>
+            <li><b>Status variable name:</b><i>status</i></li>
+            <li><b>Correct letter:</b><i>${status.question.correct}</i></li>
+            <li><b>Correct answer:</b><i>${status.question.correct}</i></li>
+            <li>We want to output player name: <i>${status.user.name}</i></li>
+            <li>And current multiple-choice question: <i>${status.question.question}</i></li>
+            <li>To output all answers and their corresponding letters you can use a <b>Loop</b> element</li>
+        </ul>
+    </div>
+</div>
