@@ -1,7 +1,7 @@
 <div class="trivia-round-help">
     <h3>Trivia Round</h3>
 
-    <p>Iterates through trivia questions, and users expecting user response</p>
+    <p>Iterates through trivia questions and users evaluating user response</p>
 
     <h3>When to use?</h3>
 
@@ -24,7 +24,7 @@
         <li>To access current question correct answer, use this syntax: <i>${status.question.correctAnswerKey}</i></li>
         <li>To access current question correct letter, use this syntax: <i>${status.question.correctLetterKey}</i></li>
         <li>(multiplayer) To access current player name, use this syntax: <i>${status.user.nameKey}</i></li>
-        <li>(multiplayer) To access current player name, use this syntax: <i>${status.user.scoreKey}</i></li>
+        <li>(multiplayer) To access current player score, use this syntax: <i>${status.user.scoreKey}</i></li>
         <li>You can access current question index: <i>${status.question_index}</i></li>
         <li>(multiplayer) You can access current user index: <i>${status.user_index}</i></li>
         <li>To check if it's the last question, use this syntax: <i>${status.last_question}</i></li>
@@ -34,7 +34,7 @@
     <h3>Example of usage</h3>
     <div>
         <p>We have a multi-dimensional <b>questions</b> array in this format: questions[index]["question"], questions[index]["answers"][index]["answer"], questions[index]["correct_letter"] etc.</p>
-        <p>We also have a multi-dimensional <b>players</b> array in this format: players[index]["name"], players[index]["score"]</p>
+        <p>We also have a multi-dimensional <b>players</b> array: players[index]["name"], players[index]["score"]</p>
         <ul>
             <li><b>Questions</b> <i>${questions}</i></li>
             <li><b>Users:</b> <i>${players}</i></li>
