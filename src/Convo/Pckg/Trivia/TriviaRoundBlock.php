@@ -2,9 +2,11 @@
 
 namespace Convo\Pckg\Trivia;
 
+use Convo\Core\Util\StrUtil;
 use Convo\Core\Workflow\IConvoRequest;
 use Convo\Core\Workflow\IRequestFilter;
 use Convo\Core\Workflow\IRequestFilterResult;
+use Convo\Pckg\Core\Processors\SimpleProcessor;
 
 class TriviaRoundBlock extends \Convo\Pckg\Core\Elements\ConversationBlock implements IRequestFilter
 {
@@ -156,6 +158,20 @@ class TriviaRoundBlock extends \Convo\Pckg\Core\Elements\ConversationBlock imple
             $this->_answeredOk,
             $this->_answeredNok,
             $this->_done
+        );
+    }
+
+    public function getProcessors()
+    {
+        // create dummy processor that will account for built in filters
+        $proc = new SimpleProcessor([
+            'name' => $this->getName().'_DummyProcessor_'.StrUtil::uuidV4(),
+            'ok' => [],
+            'request_filters' => [$this->_filters[0]]
+        ]);
+
+        return array_merge(
+            parent::getProcessors(), [$proc]
         );
     }
 
