@@ -2,6 +2,7 @@
 
 namespace Convo\Pckg\Trivia;
 
+
 use Convo\Core\Preview\PreviewBlock;
 use Convo\Core\Preview\PreviewSection;
 use Convo\Core\Preview\PreviewUtterance;
@@ -153,30 +154,6 @@ class TriviaRoundBlock extends \Convo\Pckg\Core\Elements\ConversationBlock imple
 		// put myself as last filter - not to catch dialogflow text
 		$this->_filters[] =   $this;
 	}
-
-//    public function getElements()
-//    {
-//        return array_merge(
-//            parent::getElements(),
-//            $this->_answeredOk,
-//            $this->_answeredNok,
-//            $this->_done
-//        );
-//    }
-
-//    public function getProcessors()
-//    {
-//        // create dummy processor that will account for built in filters
-//        $proc = new SimpleProcessor([
-//            'name' => $this->getName().'_DummyProcessor_'.StrUtil::uuidV4(),
-//            'ok' => [],
-//            'request_filters' => [$this->_filters[0]]
-//        ]);
-//
-//        return array_merge(
-//            parent::getProcessors(), [$proc]
-//        );
-//    }
 
     public function getPreview()
     {
