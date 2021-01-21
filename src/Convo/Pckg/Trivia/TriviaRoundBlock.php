@@ -6,11 +6,9 @@ namespace Convo\Pckg\Trivia;
 use Convo\Core\Preview\PreviewBlock;
 use Convo\Core\Preview\PreviewSection;
 use Convo\Core\Preview\PreviewUtterance;
-use Convo\Core\Util\StrUtil;
 use Convo\Core\Workflow\IConvoRequest;
 use Convo\Core\Workflow\IRequestFilter;
 use Convo\Core\Workflow\IRequestFilterResult;
-use Convo\Pckg\Core\Processors\SimpleProcessor;
 
 class TriviaRoundBlock extends \Convo\Pckg\Core\Elements\ConversationBlock implements IRequestFilter
 {
