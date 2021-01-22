@@ -159,6 +159,7 @@ class TriviaRoundBlock extends \Convo\Pckg\Core\Elements\ConversationBlock imple
         $pblock->setLogger($this->_logger);
 
         $read = new PreviewSection('Read');
+        $read_count = 0;
         foreach ($this->getElements() as $element)
         {
             /** @var \Convo\Core\Preview\IBotSpeechResource[] $read_speech */
@@ -167,14 +168,16 @@ class TriviaRoundBlock extends \Convo\Pckg\Core\Elements\ConversationBlock imple
 
             foreach ($read_speech as $part) {
                 $read->addUtterance(new PreviewUtterance($part->getSpeech()->getText()));
+                $read_count++;
             }
         }
 
-        if (!empty($read_speech)) {
+        if ($read_count > 0) {
             $pblock->addSection($read);
         }
 
         $correct_answer = new PreviewSection('Correct answer given');
+        $correct_answer_count = 0;
         foreach ($this->_answeredOk as $element)
         {
             /** @var \Convo\Core\Preview\IBotSpeechResource[] $ca_speech */
@@ -183,14 +186,16 @@ class TriviaRoundBlock extends \Convo\Pckg\Core\Elements\ConversationBlock imple
 
             foreach ($ca_speech as $part) {
                 $correct_answer->addUtterance(new PreviewUtterance($part->getSpeech()->getText()));
+                $correct_answer_count++;
             }
         }
 
-        if (!empty($ca_speech)) {
+        if ($correct_answer_count > 0) {
             $pblock->addSection($correct_answer);
         }
 
         $incorrect_answer = new PreviewSection('Incorrect answer given');
+        $incorrect_answer_count = 0;
         foreach ($this->_answeredNok as $element)
         {
             /** @var \Convo\Core\Preview\IBotSpeechResource[] $inc_speech */
@@ -199,10 +204,11 @@ class TriviaRoundBlock extends \Convo\Pckg\Core\Elements\ConversationBlock imple
 
             foreach ($inc_speech as $part) {
                 $incorrect_answer->addUtterance(new PreviewUtterance($part->getSpeech()->getText()));
+                $incorrect_answer_count++;
             }
         }
 
-        if (!empty($inc_speech)) {
+        if ($incorrect_answer_count > 0) {
             $pblock->addSection($incorrect_answer);
         }
 
@@ -257,6 +263,7 @@ class TriviaRoundBlock extends \Convo\Pckg\Core\Elements\ConversationBlock imple
         }
 
         $fallback = new PreviewSection('Fallback');
+        $fallback_count = 0;
         foreach ($this->getFallback() as $element)
         {
             /** @var \Convo\Core\Preview\IBotSpeechResource[] $fallback_speech */
@@ -265,14 +272,16 @@ class TriviaRoundBlock extends \Convo\Pckg\Core\Elements\ConversationBlock imple
 
             foreach ($fallback_speech as $part) {
                 $fallback->addUtterance(new PreviewUtterance($part->getSpeech()->getText()));
+                $fallback_count++;
             }
         }
 
-        if (!empty($fallback_speech)) {
+        if ($fallback_count > 0) {
             $pblock->addSection($fallback);
         }
 
         $done = new PreviewSection('Done');
+        $done_count = 0;
         foreach ($this->_done as $element)
         {
             /** @var \Convo\Core\Preview\IBotSpeechResource[] $done_speech */
@@ -281,10 +290,11 @@ class TriviaRoundBlock extends \Convo\Pckg\Core\Elements\ConversationBlock imple
 
             foreach ($done_speech as $part) {
                 $done->addUtterance(new PreviewUtterance($part->getSpeech()->getText()));
+                $done_count++;
             }
         }
 
-        if (!empty($done_speech)) {
+        if ($done_count > 0) {
             $pblock->addSection($done);
         }
 
