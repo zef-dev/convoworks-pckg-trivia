@@ -159,143 +159,99 @@ class TriviaRoundBlock extends \Convo\Pckg\Core\Elements\ConversationBlock imple
         $pblock->setLogger($this->_logger);
 
         $read = new PreviewSection('Read');
-        $read_count = 0;
-        foreach ($this->getElements() as $element)
-        {
-            /** @var \Convo\Core\Preview\IBotSpeechResource[] $read_speech */
-            $read_speech = [];
-            $this->_populateSpeech($read_speech, $element, '\Convo\Core\Preview\IBotSpeechResource');
+        $read->setLogger($this->_logger);
 
-            foreach ($read_speech as $part) {
-                $read->addUtterance(new PreviewUtterance($part->getSpeech()->getText()));
-                $read_count++;
+        try {
+            $read->collect($this->getElements(), '\Convo\Core\Preview\IBotSpeechResource');
+
+            if (!$read->isEmpty()) {
+                $pblock->addSection($read);
             }
+        } catch (\Exception $e) {
+            $this->_logger->error($e);
         }
 
-        if ($read_count > 0) {
-            $pblock->addSection($read);
-        }
+        $correct_answer = new PreviewSection('Correct Answer Given');
+        $correct_answer->setLogger($this->_logger);
 
-        $correct_answer = new PreviewSection('Correct answer given');
-        $correct_answer_count = 0;
-        foreach ($this->_answeredOk as $element)
-        {
-            /** @var \Convo\Core\Preview\IBotSpeechResource[] $ca_speech */
-            $ca_speech = [];
-            $this->_populateSpeech($ca_speech, $element, '\Convo\Core\Preview\IBotSpeechResource');
+        try {
+            $correct_answer->collect($this->_answeredOk, '\Convo\Core\Preview\IBotSpeechResource');
 
-            foreach ($ca_speech as $part) {
-                $correct_answer->addUtterance(new PreviewUtterance($part->getSpeech()->getText()));
-                $correct_answer_count++;
+            if (!$correct_answer->isEmpty()) {
+                $pblock->addSection($correct_answer);
             }
+        } catch (\Exception $e) {
+            $this->_logger->error($e);
         }
 
-        if ($correct_answer_count > 0) {
-            $pblock->addSection($correct_answer);
-        }
+        $incorrect_answer = new PreviewSection('Incorrect Answer Given');
+        $incorrect_answer->setLogger($this->_logger);
 
-        $incorrect_answer = new PreviewSection('Incorrect answer given');
-        $incorrect_answer_count = 0;
-        foreach ($this->_answeredNok as $element)
-        {
-            /** @var \Convo\Core\Preview\IBotSpeechResource[] $inc_speech */
-            $inc_speech = [];
-            $this->_populateSpeech($inc_speech, $element, '\Convo\Core\Preview\IBotSpeechResource');
+        try {
+            $incorrect_answer->collect($this->_answeredNok, '\Convo\Core\Preview\IBotSpeechResource');
 
-            foreach ($inc_speech as $part) {
-                $incorrect_answer->addUtterance(new PreviewUtterance($part->getSpeech()->getText()));
-                $incorrect_answer_count++;
+            if (!$incorrect_answer->isEmpty()) {
+                $pblock->addSection($incorrect_answer);
             }
-        }
-
-        if ($incorrect_answer_count > 0) {
-            $pblock->addSection($incorrect_answer);
+        } catch (\Exception $e) {
+            $this->_logger->error($e);
         }
 
         foreach ($this->getProcessors() as $processor)
         {
             $processor_section = new PreviewSection('Process - '.(new \ReflectionClass($processor))->getShortName().' ['.$processor->getId().']');
+            $processor_section->setLogger($this->_logger);
 
-            /** @var \Convo\Core\Preview\IBotSpeechResource[] $user */
-            $user = [];
-            /** @var \Convo\Core\Preview\IBotSpeechResource[] $bot */
-            $bot = [];
-            $this->_populateSpeech($user, $processor, '\Convo\Core\Preview\IUserSpeechResource');
-            $this->_populateSpeech($bot, $processor, '\Convo\Core\Preview\IBotSpeechResource');
+            try {
+                $processor_section->collectOne($processor, '\Convo\Core\Preview\IUserSpeechResource');
+                $processor_section->collectOne($processor, '\Convo\Core\Preview\IBotSpeechResource');
 
-            if (empty($user) && empty($bot)) {
-                $this->_logger->debug('No user utterances or bot responses, skipping.');
+                if (!$processor_section->isEmpty()) {
+                    $pblock->addSection($processor_section);
+                }
+            } catch (\Exception $e) {
+                $this->_logger->error($e);
                 continue;
             }
-
-            foreach ($user as $user_part)
-            {
-                $speech = $user_part->getSpeech();
-                $utterance = new PreviewUtterance($speech->getText(), false, $speech->getIntentSource());
-                $processor_section->addUtterance($utterance);
-            }
-
-            foreach ($bot as $bot_part)
-            {
-                $utterance = new PreviewUtterance($bot_part->getSpeech()->getText());
-                $processor_section->addUtterance($utterance);
-            }
-
-            $pblock->addSection($processor_section);
         }
 
         $additional_readers = new PreviewSection('Additional intent readers');
+        $additional_readers->setLogger($this->_logger);
 
-        /** @var \Convo\Core\Preview\IUserSpeechResource[] $additional_user_speech */
-        $additional_user_speech = [];
-        $this->_populateSpeech($additional_user_speech, $this->_filters[0],'\Convo\Core\Preview\IUserSpeechResource');
+        try {
+            $additional_readers->collectOne($this->_filters[0], '\Convo\Core\Preview\IUserSpeechResource');
 
-        foreach ($additional_user_speech as $part) {
-            $additional_readers->addUtterance(new PreviewUtterance(
-                $part->getSpeech()->getText(),
-                false,
-                $part->getSpeech()->getIntentSource()
-            ));
-        }
-
-        if (!empty($additional_user_speech)) {
-            $pblock->addSection($additional_readers);
+            if (!$additional_readers->isEmpty()) {
+                $pblock->addSection($additional_readers);
+            }
+        } catch (\Exception $e) {
+            $this->_logger->error($e);
         }
 
         $fallback = new PreviewSection('Fallback');
-        $fallback_count = 0;
-        foreach ($this->getFallback() as $element)
-        {
-            /** @var \Convo\Core\Preview\IBotSpeechResource[] $fallback_speech */
-            $fallback_speech = [];
-            $this->_populateSpeech($fallback_speech, $element, '\Convo\Core\Preview\IBotSpeechResource');
+        $fallback->setLogger($this->_logger);
 
-            foreach ($fallback_speech as $part) {
-                $fallback->addUtterance(new PreviewUtterance($part->getSpeech()->getText()));
-                $fallback_count++;
+        try {
+            $fallback->collect($this->getFallback(), '\Convo\Core\Preview\IBotSpeechResource');
+
+            if (!$fallback->isEmpty()) {
+                $pblock->addSection($fallback);
             }
-        }
-
-        if ($fallback_count > 0) {
-            $pblock->addSection($fallback);
+        } catch (\Exception $e) {
+            $this->_logger->error($e);
         }
 
         $done = new PreviewSection('Done');
-        $done_count = 0;
-        foreach ($this->_done as $element)
-        {
-            /** @var \Convo\Core\Preview\IBotSpeechResource[] $done_speech */
-            $done_speech = [];
-            $this->_populateSpeech($done_speech, $element, '\Convo\Core\Preview\IBotSpeechResource');
+        $done->setLogger($this->_logger);
 
-            foreach ($done_speech as $part) {
-                $done->addUtterance(new PreviewUtterance($part->getSpeech()->getText()));
-                $done_count++;
+        try {
+            $done->collect($this->_done, '\Convo\Core\Preview\IBotSpeechResource');
+
+            if (!$done->isEmpty()) {
+                $pblock->addSection($done);
             }
-        }
-
-        if ($done_count > 0) {
-            $pblock->addSection($done);
+        } catch (\Exception $e) {
+            $this->_logger->error($e);
         }
 
         return $pblock;
