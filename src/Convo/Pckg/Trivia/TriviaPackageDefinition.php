@@ -223,6 +223,10 @@ class TriviaPackageDefinition extends AbstractPackageDefinition
                     ),
                     '_workflow' => 'read',
                     '_system' => true,
+                    '_help' =>  array(
+                        'type' => 'file',
+                        'filename' => 'trivia-round-block.html'
+                    ),
                     '_factory' => new class ( $this->_packageProviderFactory) implements \Convo\Core\Factory\IComponentFactory
                     {
                         private $_packageProviderFactory;
@@ -241,7 +245,7 @@ class TriviaPackageDefinition extends AbstractPackageDefinition
                 $this->getNamespace(),
                 '\Convo\Pckg\Trivia\TriviaScoresReader',
                 'Trivia Scores',
-                '',
+                'Display the score and the name of each player in the trivia quiz.',
                 array(
                     'players' => array(
                         'editor_type' => 'text',
