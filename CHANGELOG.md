@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## [Current development]
+
+* Update templates
+* Update help files
+
 ## 1.0.6 - 2021-05-14
 
 * Use `convoworks-core` v0.22
