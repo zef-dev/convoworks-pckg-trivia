@@ -2,6 +2,8 @@
 
 ## [Current development]
 
+## 1.0.7 - 2021-06-18
+
 * Update templates
 * Update help files
 
