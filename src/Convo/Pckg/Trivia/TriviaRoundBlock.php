@@ -540,7 +540,7 @@ class TriviaRoundBlock extends \Convo\Pckg\Core\Elements\ConversationBlock imple
 	        'user' => null,
 	        'question_index' => 0,
 	        'user_index' => 0,
-	        'last_question' => count( $questions) === 0
+	        'last_question' => count( $questions) <= 1
 	    ];
 	    return $status;
 	}
