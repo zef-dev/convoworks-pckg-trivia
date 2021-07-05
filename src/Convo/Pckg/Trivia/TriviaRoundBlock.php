@@ -349,7 +349,8 @@ class TriviaRoundBlock extends \Convo\Pckg\Core\Elements\ConversationBlock imple
 	    $questions     =   $this->getQuestions();
 	    $next_question =   $status['question_index'] + 1;
 	    $last_question =   false;
-	    if ( count( $questions) -1 === $next_question) {
+	    
+		if ((count($questions) === 1) || (count($questions) - 1 === $next_question)) {
 	        $last_question = true;
 	    }
 
