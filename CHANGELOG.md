@@ -4,6 +4,7 @@
 
 ## 1.1.0 - 2021-07-06
 * Fixed `Trivia Round Block` with only 1 question
+* Fixed `Mini Film Trivia` template not renaming slot in additional processors section of the Rounds block
 * Added an adapter for Open Trivia DB quizzes
 ## 1.0.7 - 2021-06-18
 
