@@ -17,10 +17,15 @@ class TriviaPackageDefinition extends AbstractPackageDefinition
      */
     private $_packageProviderFactory;
 
+    /**
+     * @var \Convo\Core\Util\IHttpFactory
+     */
+    private $_httpFactory;
 
-    public function __construct( \Psr\Log\LoggerInterface $logger, \Convo\Core\Factory\PackageProviderFactory $packageProviderFactory)
+    public function __construct( \Psr\Log\LoggerInterface $logger, \Convo\Core\Factory\PackageProviderFactory $packageProviderFactory, \Convo\Core\Util\IHttpFactory $httpFactory)
     {
-        $this->_packageProviderFactory    =   $packageProviderFactory;
+        $this->_packageProviderFactory = $packageProviderFactory;
+        $this->_httpFactory = $httpFactory;
 
         parent::__construct( $logger, self::NAMESPACE, __DIR__);
 
