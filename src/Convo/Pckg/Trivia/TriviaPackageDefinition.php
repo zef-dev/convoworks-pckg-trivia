@@ -3,6 +3,7 @@
 namespace Convo\Pckg\Trivia;
 
 use Convo\Core\Factory\AbstractPackageDefinition;
+use Convo\Core\Factory\IComponentFactory;
 use Convo\Core\Intent\SystemEntity;
 use Convo\Core\Intent\EntityModel;
 use Convo\Core\Workflow\IRunnableBlock;
@@ -408,7 +409,7 @@ class TriviaPackageDefinition extends AbstractPackageDefinition
 
                         public function createComponent($properties, $service)
                         {
-                            return new \Convo\Wp\Pckg\WpPluginPack\OpenTDBTriviaAdapterElement($properties, $this->_httpFactory);
+                            return new \Convo\Pckg\Trivia\OpenTDBTriviaAdapterElement($properties, $this->_httpFactory);
                         }
                     }
                 ]
