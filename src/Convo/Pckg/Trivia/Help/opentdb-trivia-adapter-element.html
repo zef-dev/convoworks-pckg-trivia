@@ -1,0 +1,79 @@
+<div>
+    <h3>OpenTDB Trivia Adapter Element</h3>
+
+    <p>Transforms a given OpenTDB quiz into a format more suitable for Convoworks usage.</p>
+
+    <h4>When to use?</h4>
+    <p>
+        If you want to use an OpenTDB quiz with Convoworks Trivia elements (e.g. trivia round block), and you don't want to have to manually transform questions into the proper format.
+    </p>
+
+    <h4>How to use?</h4>
+    <ul>
+        <li>First, pick a session type and name under which the transformed questions will be stored.</li>
+        <li>Choose an <code>amount</code> of questions you want to fetch.</li>
+        <li>
+            Pick a <code>category</code> code. Here's a (potentially non-exhaustive) list of categories and their codes:
+            <br>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Code</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Film</td>
+                        <td>11</td>
+                    </tr>
+                    <tr>
+                        <td>Video games</td>
+                        <td>15</td>
+                    </tr>
+                    <tr>
+                        <td>Animals</td>
+                        <td>27</td>
+                    </tr>
+                    <tr>
+                        <td>Music</td>
+                        <td>12</td>
+                    </tr>
+                    <tr>
+                        <td>History</td>
+                        <td>23</td>
+                    </tr>
+                    <tr>
+                        <td>Geography</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <td>Sports</td>
+                        <td>21</td>
+                    </tr>
+                    <tr>
+                        <td>Television</td>
+                        <td>14</td>
+                    </tr>
+                </tbody>
+            </table>
+        </li>
+        <li>
+            The resulting questions have the following properties
+            <ul>
+                <li><code>text</code> &mdash; The actual text of the question.</li>
+                <li><code>answers</code> &mdash; An array of answer objects, which look like this:
+                    <br>
+                    <ul>
+                        <li><code>text</code> &mdash; The text of the answer</li>
+                        <li><code>letter</code> &mdash; The letter associated with the answer</li>
+                        <li><code>is_correct</code> &mdash; Boolean; whether the answer is correct or not.</li>
+                    </ul>
+                </li>
+                <li>As a quality-of-life feature, each question has a <code>correct_answer</code> object that is set to the correct answer. Refer to the layout of answer objects above.</li>
+            </ul>
+        </li>
+        <li>In the <code>OK</code> flow, place the elements you wish to run if the quiz has been successfuly loaded.</li>
+        <li>In the <code>Not OK</code> flow, place the elements you wish to run if an error occurs and the quiz could not be loaded.</li>
+    </ul>
+</div>
