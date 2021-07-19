@@ -2,6 +2,9 @@
 
 ## [Current development]
 
+## 1.1.1 - 2021-07-19
+* Fixed letter recognition for answers
+
 ## 1.1.0 - 2021-07-06
 * Fixed `Trivia Round Block` with only 1 question
 * Fixed `Mini Film Trivia` template not renaming slot in additional processors section of the Rounds block
