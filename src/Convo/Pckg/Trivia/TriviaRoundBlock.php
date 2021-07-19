@@ -413,9 +413,13 @@ class TriviaRoundBlock extends \Convo\Pckg\Core\Elements\ConversationBlock imple
 	    {
 	        $letter            =   $result->getSlotValue( 'letter');
 
-            if( strtolower( $letter) == 'b.') {
-                $letter =   trim( $letter, '.');
-            }
+            // if( strtolower( $letter) == 'b.') {
+            //     $letter =   trim( $letter, '.');
+            // }
+
+			if (strlen($letter) === 2 && strpos($letter, '.') === 1) {
+				$letter = trim($letter, '.');
+			}
 
 	        $correct_letter    =   $this->evaluateString( $this->_correctLetter);
 	        $this->_logger->debug( 'Checking letter ['.$letter.'] against correct one ['.$correct_letter.']');
