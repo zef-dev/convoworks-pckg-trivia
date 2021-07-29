@@ -8,6 +8,8 @@ use Convo\Core\Intent\SystemEntity;
 use Convo\Core\Intent\EntityModel;
 use Convo\Core\Workflow\IRunnableBlock;
 
+use function PHPSTORM_META\map;
+
 class TriviaPackageDefinition extends AbstractPackageDefinition
 {
     const NAMESPACE	=	'convo-trivia';
@@ -180,7 +182,8 @@ class TriviaPackageDefinition extends AbstractPackageDefinition
                         'defaultValue' => array(),
                         'name' => 'Incorrect answer given',
                         'description' => 'Elements to be executed after user gave incorrect answer',
-                        'valueType' => 'class'
+                        'valueType' => 'class',
+                        '_separate' => true
                     ),
                     'additional_readers' => array(
                         'editor_type' => 'service_components',
@@ -203,7 +206,8 @@ class TriviaPackageDefinition extends AbstractPackageDefinition
                         'defaultValue' => array(),
                         'name' => 'Other processors',
                         'description' => 'Other processors to be executed in process phase. E.g. help, repeat ... This procoessors will not trigger loop iteration.',
-                        'valueType' => 'class'
+                        'valueType' => 'class',
+                        '_separate' => true
                     ),
                     'fallback' => array(
                         'editor_type' => 'service_components',
