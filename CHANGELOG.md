@@ -2,6 +2,9 @@
 
 ## [Current development]
 
+## 1.2.0 - 2021-08-02
+* Add separator on Trivia Round block to separate read and process phases
+
 ## 1.1.1 - 2021-07-19
 * Fixed letter recognition for answers
 
