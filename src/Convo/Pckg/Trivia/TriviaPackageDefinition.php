@@ -341,7 +341,7 @@ class TriviaPackageDefinition extends AbstractPackageDefinition
                     'scope_type' => [
                         'editor_type' => 'select',
                         'editor_properties' => [
-                            'options' => ['request' => 'Request', 'session' => 'Session', 'installation' => 'Installation']
+                            'options' => ['request' => 'Request', 'session' => 'Session', 'installation' => 'Installation', 'user' => 'User']
                         ],
                         'defaultValue' => 'session',
                         'name' => 'Storage type',
