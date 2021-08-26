@@ -2,6 +2,11 @@
 
 ## [Current development]
 
+## [Releases]
+
+## 1.1.3 - 2021-08-26
+*  Added User Scope to Request Scope
+
 ## 1.1.2 - 2021-08-02
 * Add separator on Trivia Round block to separate read and process phases
 
