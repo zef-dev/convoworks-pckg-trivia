@@ -268,7 +268,7 @@ class TriviaPackageDefinition extends AbstractPackageDefinition
                     'status_var' => array(
                         'editor_type' => 'text',
                         'editor_properties' => array(),
-                        'defaultValue' => '',
+                        'defaultValue' => 'status',
                         'name' => 'Status variable name',
                         'description' => 'Name under which to provide full iteration status (name, score)',
                         'valueType' => 'string'
