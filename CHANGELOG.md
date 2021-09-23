@@ -4,6 +4,9 @@
 
 ## [Releases]
 
+## 1.1.4 - 2021-09-23
+* Rework Allow option to declare our expressions with the # sign
+
 ## 1.1.3 - 2021-08-26
 *  Added User Scope to Request Scope
 
