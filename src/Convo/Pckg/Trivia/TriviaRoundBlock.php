@@ -441,7 +441,7 @@ class TriviaRoundBlock extends \Convo\Pckg\Core\Elements\ConversationBlock imple
 
 			$this->_logger->debug('Checking answer [' . $user_answer . '] against correct one [' . $correct_answer . ']');
 
-			return strtolower($user_answer) === strtolower($correct_answer);
+			return $user_answer === $correct_answer;
 		}
 
 		throw new \Exception('Neither letter or answer slots are populated');
