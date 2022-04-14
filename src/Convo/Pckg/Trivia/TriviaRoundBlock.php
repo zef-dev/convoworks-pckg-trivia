@@ -424,44 +424,27 @@ class TriviaRoundBlock extends \Convo\Pckg\Core\Elements\ConversationBlock imple
 			return strtolower($letter) === strtolower($correct_letter);
 		}
 
-		//fix for letter ending up in the answer slot
-		if (!$result->isSlotEmpty('answer') && preg_match("/^[a-z]$/i", $result->getSlotValue('answer'))) {
-			$answer         =    $result->getSlotValue('answer');
-			$correct_letter =   $this->evaluateString($this->_correctLetter);
+		if (!$result->isSlotEmpty('answer'))
+		{
+			$user_answer = $result->getSlotValue('answer');
 
-			$this->_logger->debug('Checking answer [' . $answer . '] against correct letter [' . $correct_letter . ']');
+			if (\preg_match("/^[a-z]{1}\.?$/i", $user_answer) !== 0) { // Stray letter in answer slot
+				$letter = strtolower(substr($user_answer, 0, 1));
+				$correct_letter = strtolower($this->evaluateString($this->_correctLetter));
 
-			return strtolower($answer) === strtolower($correct_letter);
-		}
-
-		if (!$result->isSlotEmpty('answer')) {
-			$user_answer       =    $result->getSlotValue('answer');
-			$correct_answer    =    $this->evaluateString($this->_correctAnswer);
-
-			$answer            =    $this->_cleanAnswer($user_answer);
-			$correct_answer    =    $this->_cleanAnswer($correct_answer);
-
-			$this->_logger->debug('Checking answer [' . $answer . '] against correct one [' . $correct_answer . ']');
-
-			if (strtolower($answer) === strtolower($correct_answer)) {
-				return true;
+				$this->_logger->info('Checking stray letter ['.$letter.'] against actual correct ['.$correct_letter.']');
+				return $letter === $correct_letter;
 			}
 
-			// 	        $variations        =    $this->_interpolateAnswer( $answer);
+			$user_answer = strtolower($this->_cleanAnswer($user_answer));
+			$correct_answer = strtolower($this->_cleanAnswer($this->evaluateString($this->_correctAnswer)));
 
-			return false;
+			$this->_logger->debug('Checking answer [' . $user_answer . '] against correct one [' . $correct_answer . ']');
+
+			return strtolower($user_answer) === strtolower($correct_answer);
 		}
 
-
 		throw new \Exception('Neither letter or answer slots are populated');
-	}
-
-	private function _interpolateAnswer($answer)
-	{
-		$variations    =   [];
-		$variations[]  =   $answer;
-
-		return $variations;
 	}
 
 	/**
