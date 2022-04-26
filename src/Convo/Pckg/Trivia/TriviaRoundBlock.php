@@ -135,13 +135,6 @@ class TriviaRoundBlock extends \Convo\Pckg\Core\Elements\ConversationBlock imple
 		$reader->setService($this->getService());
 		$readers[]    =   $reader;
 
-		$reader   =   new \Convo\Pckg\Core\Filters\ConvoIntentReader([
-			'intent' => 'convo-trivia.GiveAnswerIntent'
-		], $this->_packageProviderFactory);
-		$reader->setLogger($this->_logger);
-		$reader->setService($this->getService());
-		$readers[]    =   $reader;
-
 		$filter =   new \Convo\Pckg\Core\Filters\IntentRequestFilter([
 			'readers' => $readers
 		]);
