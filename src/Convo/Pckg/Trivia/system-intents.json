@@ -13,7 +13,7 @@
                         "raw": "d one",
                         "model": [
                             {
-                                "type": "letter",
+                                "type": "convo-trivia.letter",
                                 "text": "d",
                                 "slot_value": "letter"
                             },
@@ -26,7 +26,7 @@
                         "raw": "c ursus maritimus",
                         "model": [
                             {
-                                "type": "letter",
+                                "type": "convo-trivia.letter",
                                 "text": "c",
                                 "slot_value": "letter"
                             },
@@ -39,7 +39,7 @@
                         "raw": "c quentin tarantino",
                         "model": [
                             {
-                                "type": "letter",
+                                "type": "convo-trivia.letter",
                                 "text": "c",
                                 "slot_value": "letter"
                             },
@@ -52,7 +52,7 @@
                         "raw": "b maybe",
                         "model": [
                             {
-                                "type": "letter",
+                                "type": "convo-trivia.letter",
                                 "text": "b",
                                 "slot_value": "letter"
                             },
@@ -65,7 +65,7 @@
                         "raw": "b",
                         "model": [
                             {
-                                "type": "letter",
+                                "type": "convo-trivia.letter",
                                 "text": "b",
                                 "slot_value": "letter"
                             }
@@ -78,7 +78,7 @@
                                 "text": "go with"
                             },
                             {
-                                "type": "letter",
+                                "type": "convo-trivia.letter",
                                 "text": "b",
                                 "slot_value": "letter"
                             }
@@ -91,7 +91,7 @@
                                 "text": "the answer is"
                             },
                             {
-                                "type": "letter",
+                                "type": "convo-trivia.letter",
                                 "text": "b",
                                 "slot_value": "letter"
                             }
@@ -101,7 +101,7 @@
                         "raw": "b I think",
                         "model": [
                             {
-                                "type": "letter",
+                                "type": "convo-trivia.letter",
                                 "text": "b",
                                 "slot_value": "letter"
                             },
@@ -114,7 +114,7 @@
                         "raw": "b turkey",
                         "model": [
                             {
-                                "type": "letter",
+                                "type": "convo-trivia.letter",
                                 "text": "b",
                                 "slot_value": "letter"
                             },
@@ -129,7 +129,7 @@
                         "raw": "b toad",
                         "model": [
                             {
-                                "type": "letter",
+                                "type": "convo-trivia.letter",
                                 "text": "b",
                                 "slot_value": "letter"
                             },
@@ -145,7 +145,7 @@
                                 "text": "hmm"
                             },
                             {
-                                "type": "letter",
+                                "type": "convo-trivia.letter",
                                 "text": "c",
                                 "slot_value": "letter"
                             }
@@ -155,7 +155,7 @@
                         "raw": "c dubai",
                         "model": [
                             {
-                                "type": "letter",
+                                "type": "convo-trivia.letter",
                                 "text": "c",
                                 "slot_value": "letter"
                             },
@@ -347,108 +347,6 @@
                         "model": [
                             {
                                 "text": "the answer is die"
-                            }
-                        ]
-                    }
-                ]
-            }
-        }
-    ],
-    "GiveAnswerIntent": [
-        {
-            "platforms": [
-                "dialogflow",
-                "amazon"
-            ],
-            "definition": {
-                "name": "GiveAnswerIntent",
-                "type": "custom",
-                "utterances": [
-                    {
-                        "raw": "answer",
-                        "model": [
-                            {
-                                "text": "answer",
-                                "type": "@convo-core.any",
-                                "slot_value": "answer"
-                            }
-                        ]
-                    },
-                    {
-                        "raw": "is it maybe answer",
-                        "model": [
-                            {
-                                "text": "is it maybe"
-                            },
-                            {
-                                "text": "answer",
-                                "type": "@convo-core.any",
-                                "slot_value": "answer"
-                            }
-                        ]
-                    },
-                    {
-                        "raw": "is it answer",
-                        "model": [
-                            {
-                                "text": "is it"
-                            },
-                            {
-                                "text": "answer",
-                                "type": "@convo-core.any",
-                                "slot_value": "answer"
-                            }
-                        ]
-                    },
-                    {
-                        "raw": "a answer",
-                        "model": [
-                            {
-                                "text": "a"
-                            },
-                            {
-                                "text": "answer",
-                                "type": "@convo-core.any",
-                                "slot_value": "answer"
-                            }
-                        ]
-                    },
-                    {
-                        "raw": "b answer",
-                        "model": [
-                            {
-                                "text": "b"
-                            },
-                            {
-                                "text": "answer",
-                                "type": "@convo-core.any",
-                                "slot_value": "answer"
-                            }
-                        ]
-                    },
-                    {
-                        "raw": "c answer",
-                        "model": [
-                            {
-                                "text": "c"
-                            },
-                            {
-                                "text": "answer",
-                                "type": "@convo-core.any",
-                                "slot_value": "answer"
-                            }
-                        ]
-                    },
-                    {
-                        "raw": "d answer",
-                        "model": [
-                            {
-                                "text": "d"
-                            },
-                            {
-                                "text": "answer",
-                                "type": "@convo-core.any",
-                                "slot_value": "answer"
                             }
                         ]
                     }
