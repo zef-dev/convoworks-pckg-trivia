@@ -1,8 +1,8 @@
 {
-    "template_id" : "mini",
-    "name" : "Mini Film Trivia",
-    "description" : "Template for film trivia quiz",
-    "service" : {
+    "template_id": "mini-film-trivia",
+    "name": "Mini Film Trivia",
+    "description": "Template for simple film quiz",
+    "service": {
         "convo_service_version": 38,
         "packages": [
             "convo-core",
@@ -1588,6 +1588,7 @@
                                                         "intent": "convo-core.HelpIntent",
                                                         "values": [],
                                                         "rename": [],
+                                                        "required_slots": [],
                                                         "_component_id": "6ea3bc62-8178-da7f-e5ad-318bda9bcbf1"
                                                     }
                                                 }
@@ -1975,7 +1976,7 @@
                                 "scope_type": "installation",
                                 "scope_name": "questions",
                                 "amount": "${TOTAL_QUESTIONS}",
-                                "category": "${CATEGORY}",
+                                "category": "${FILM}",
                                 "ok": [
                                     {
                                         "class": "\\Convo\\Pckg\\Core\\Elements\\LoopElement",
