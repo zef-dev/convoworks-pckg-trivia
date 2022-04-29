@@ -26,24 +26,7 @@
         },
         "preview_variables": [],
         "entities": [],
-        "intents": [
-            {
-                "name": "JustNumberIntent",
-                "type": "custom",
-                "utterances": [
-                    {
-                        "raw": "one",
-                        "model": [
-                            {
-                                "text": "one",
-                                "type": "@convo-core.number",
-                                "slot_value": "justNumber"
-                            }
-                        ]
-                    }
-                ]
-            }
-        ],
+        "intents": [],
         "blocks": [
             {
                 "class": "\\Convo\\Pckg\\Core\\Elements\\ConversationBlock",

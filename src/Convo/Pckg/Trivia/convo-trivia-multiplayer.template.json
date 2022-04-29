@@ -133,24 +133,34 @@
         ],
         "intents": [
             {
-                "name": "JustNumberIntent",
-                "type": "custom",
-                "utterances": [
-                    {
-                        "raw": "one",
-                        "model": [
-                            {
-                                "text": "one",
-                                "type": "@convo-core.number",
-                                "slot_value": "justNumber"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
                 "name": "GivePlayerCountIntent",
                 "utterances": [
+                    {
+                        "raw": "two",
+                        "model": [
+                            {
+                                "type": "convo-core.number",
+                                "text": "two",
+                                "slot_value": "playersCount"
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "there's three of us",
+                        "model": [
+                            {
+                                "text": "there's"
+                            },
+                            {
+                                "type": "convo-core.number",
+                                "text": "three",
+                                "slot_value": "playersCount"
+                            },
+                            {
+                                "text": "of us"
+                            }
+                        ]
+                    },
                     {
                         "raw": "only one",
                         "model": [
@@ -160,7 +170,7 @@
                             {
                                 "type": "convo-core.number",
                                 "text": "one",
-                                "slot_value": "number"
+                                "slot_value": "playersCount"
                             }
                         ]
                     },
@@ -170,7 +180,7 @@
                             {
                                 "type": "convo-core.number",
                                 "text": "one",
-                                "slot_value": "number"
+                                "slot_value": "playersCount"
                             },
                             {
                                 "text": "wants play the game"
@@ -183,7 +193,7 @@
                             {
                                 "type": "convo-core.number",
                                 "text": "three",
-                                "slot_value": "number"
+                                "slot_value": "playersCount"
                             },
                             {
                                 "text": "want to play the game"
@@ -196,7 +206,7 @@
                             {
                                 "type": "convo-core.number",
                                 "text": "one",
-                                "slot_value": "number"
+                                "slot_value": "playersCount"
                             },
                             {
                                 "text": "wants to play"
@@ -209,7 +219,7 @@
                             {
                                 "type": "convo-core.number",
                                 "text": "three",
-                                "slot_value": "number"
+                                "slot_value": "playersCount"
                             },
                             {
                                 "text": "want to play"
@@ -222,7 +232,7 @@
                             {
                                 "type": "convo-core.number",
                                 "text": "one",
-                                "slot_value": "number"
+                                "slot_value": "playersCount"
                             },
                             {
                                 "text": "person"
@@ -235,7 +245,7 @@
                             {
                                 "type": "convo-core.number",
                                 "text": "three",
-                                "slot_value": "number"
+                                "slot_value": "playersCount"
                             },
                             {
                                 "text": "people"
@@ -248,7 +258,7 @@
                             {
                                 "type": "convo-core.number",
                                 "text": "three",
-                                "slot_value": "number"
+                                "slot_value": "playersCount"
                             },
                             {
                                 "text": "players"
@@ -261,7 +271,7 @@
                             {
                                 "type": "convo-core.number",
                                 "text": "three",
-                                "slot_value": "number"
+                                "slot_value": "playersCount"
                             },
                             {
                                 "text": "are playing"
@@ -277,7 +287,7 @@
                             {
                                 "type": "convo-core.number",
                                 "text": "one",
-                                "slot_value": "number"
+                                "slot_value": "playersCount"
                             }
                         ]
                     },
@@ -705,7 +715,7 @@
                                                                     "alexa_domain": "normal",
                                                                     "alexa_emotion": "neutral",
                                                                     "alexa_emotion_intensity": "medium",
-                                                                    "text": "Do you want to resume the  ${playersTotal} player film quiz?",
+                                                                    "text": "Do you want to resume the  ${playersTotal} player ${category} quiz?",
                                                                     "_component_id": "txcqbv9u-myzi-nwxv-rk2z-gll4ijqf3ohm"
                                                                 }
                                                             },
@@ -717,7 +727,7 @@
                                                                     "alexa_domain": "normal",
                                                                     "alexa_emotion": "neutral",
                                                                     "alexa_emotion_intensity": "medium",
-                                                                    "text": "Do you want to resume the film quiz?",
+                                                                    "text": "Do you want to resume the ${category} quiz?",
                                                                     "_component_id": "1kmlyqtp-dxbk-ncvf-3cqb-xnmvsc6rredd"
                                                                 }
                                                             }
@@ -1401,23 +1411,13 @@
                                                     "class": "\\Convo\\Pckg\\Core\\Filters\\ConvoIntentReader",
                                                     "namespace": "convo-core",
                                                     "properties": {
-                                                        "intent": "JustNumberIntent",
-                                                        "values": [],
-                                                        "rename": {
-                                                            "justNumber": "playersCount"
-                                                        },
-                                                        "_component_id": "mizwxj0k-ofum-cjdq-avvz-dy2ah7zn4cc2"
-                                                    }
-                                                },
-                                                {
-                                                    "class": "\\Convo\\Pckg\\Core\\Filters\\ConvoIntentReader",
-                                                    "namespace": "convo-core",
-                                                    "properties": {
                                                         "intent": "GivePlayerCountIntent",
                                                         "values": [],
                                                         "rename": [],
                                                         "_component_id": "aitjbbfy-kqjb-lq97-8wvz-xlyg5mbvlorv",
-                                                        "required_slots": []
+                                                        "required_slots": [
+                                                            "playersCount"
+                                                        ]
                                                     }
                                                 }
                                             ],
@@ -4273,6 +4273,9 @@
                 }
             }
         ],
-        "properties": []
+        "time_updated": 1651159355,
+        "intents_time_updated": 1651159343,
+        "properties": [],
+        "name": "Trivia multiplayer"
     }
 }
