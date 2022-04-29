@@ -181,6 +181,22 @@
                 "type": "custom",
                 "utterances": [
                     {
+                        "raw": "a.",
+                        "model": [
+                            {
+                                "text": "a."
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "it's a.",
+                        "model": [
+                            {
+                                "text": "it's a."
+                            }
+                        ]
+                    },
+                    {
                         "raw": "hey",
                         "model": [
                             {
