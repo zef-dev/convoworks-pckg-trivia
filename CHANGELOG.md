@@ -4,6 +4,11 @@
 
 ## [Releases]
 
+## 1.2.0 - 2022-05-05
+* Rework Trivia Round Block so that it only accepts letters
+* Fix fallback never being read
+* Fixes for templates
+
 ## 1.1.4 - 2021-09-23
 * Rework Allow option to declare our expressions with the # sign
 
