@@ -10,38 +10,159 @@
                 "type": "custom",
                 "utterances": [
                     {
-                        "raw": "is it a",
+                        "raw": "d one",
                         "model": [
                             {
-                                "text": "is it"
+                                "type": "convo-trivia.letter",
+                                "text": "d",
+                                "slot_value": "letter"
                             },
                             {
-                                "text": "a",
-                                "type": "@convo-trivia.letter",
-                                "slot_value": "letter"
+                                "text": "one"
                             }
                         ]
                     },
                     {
-                        "raw": "maybe a",
+                        "raw": "c ursus maritimus",
                         "model": [
+                            {
+                                "type": "convo-trivia.letter",
+                                "text": "c",
+                                "slot_value": "letter"
+                            },
+                            {
+                                "text": "ursus maritimus"
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "c quentin tarantino",
+                        "model": [
+                            {
+                                "type": "convo-trivia.letter",
+                                "text": "c",
+                                "slot_value": "letter"
+                            },
+                            {
+                                "text": "quentin tarantino"
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "b maybe",
+                        "model": [
+                            {
+                                "type": "convo-trivia.letter",
+                                "text": "b",
+                                "slot_value": "letter"
+                            },
                             {
                                 "text": "maybe"
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "b",
+                        "model": [
                             {
-                                "text": "a",
-                                "type": "@convo-trivia.letter",
+                                "type": "convo-trivia.letter",
+                                "text": "b",
                                 "slot_value": "letter"
                             }
                         ]
                     },
                     {
-                        "raw": "a",
+                        "raw": "go with b",
                         "model": [
                             {
-                                "text": "a",
-                                "type": "@convo-trivia.letter",
+                                "text": "go with"
+                            },
+                            {
+                                "type": "convo-trivia.letter",
+                                "text": "b",
                                 "slot_value": "letter"
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "the answer is b",
+                        "model": [
+                            {
+                                "text": "the answer is"
+                            },
+                            {
+                                "type": "convo-trivia.letter",
+                                "text": "b",
+                                "slot_value": "letter"
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "b I think",
+                        "model": [
+                            {
+                                "type": "convo-trivia.letter",
+                                "text": "b",
+                                "slot_value": "letter"
+                            },
+                            {
+                                "text": "I think"
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "b turkey",
+                        "model": [
+                            {
+                                "type": "convo-trivia.letter",
+                                "text": "b",
+                                "slot_value": "letter"
+                            },
+                            {
+                                "type": "convo-core.country",
+                                "text": "turkey",
+                                "slot_value": "country"
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "b toad",
+                        "model": [
+                            {
+                                "type": "convo-trivia.letter",
+                                "text": "b",
+                                "slot_value": "letter"
+                            },
+                            {
+                                "text": "toad"
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "hmm c",
+                        "model": [
+                            {
+                                "text": "hmm"
+                            },
+                            {
+                                "type": "convo-trivia.letter",
+                                "text": "c",
+                                "slot_value": "letter"
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "c dubai",
+                        "model": [
+                            {
+                                "type": "convo-trivia.letter",
+                                "text": "c",
+                                "slot_value": "letter"
+                            },
+                            {
+                                "type": "convo-core.city",
+                                "text": "dubai",
+                                "slot_value": "city"
                             }
                         ]
                     }
@@ -59,6 +180,22 @@
                 "name": "AnswerFallbackA",
                 "type": "custom",
                 "utterances": [
+                    {
+                        "raw": "a.",
+                        "model": [
+                            {
+                                "text": "a."
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "it's a.",
+                        "model": [
+                            {
+                                "text": "it's a."
+                            }
+                        ]
+                    },
                     {
                         "raw": "hey",
                         "model": [
@@ -94,7 +231,7 @@
                 ]
             }
         }
-    ], 
+    ],
     "AnswerFallbackB": [
         {
             "platforms": [
@@ -102,45 +239,45 @@
                 "amazon"
             ],
             "definition": {
-  "name": "AnswerFallbackB",
-  "type": "custom",
-  "utterances": [
-    {
-      "raw": "bee",
-      "model": [
-        {
-          "text": "bee"
+                "name": "AnswerFallbackB",
+                "type": "custom",
+                "utterances": [
+                    {
+                        "raw": "bee",
+                        "model": [
+                            {
+                                "text": "bee"
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "it's bee",
+                        "model": [
+                            {
+                                "text": "it's bee"
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "is it bee",
+                        "model": [
+                            {
+                                "text": "is it bee"
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "the answer is bee",
+                        "model": [
+                            {
+                                "text": "the answer is bee"
+                            }
+                        ]
+                    }
+                ]
+            }
         }
-      ]
-    },
-    {
-      "raw": "it's bee",
-      "model": [
-        {
-          "text": "it's bee"
-        }
-      ]
-    },
-    {
-      "raw": "is it bee",
-      "model": [
-        {
-          "text": "is it bee"
-        }
-      ]
-    },
-    {
-      "raw": "the answer is bee",
-      "model": [
-        {
-          "text": "the answer is bee"
-        }
-      ]
-    }
-  ]
-}
-        }
-    ], 
+    ],
     "AnswerFallbackC": [
         {
             "platforms": [
@@ -148,45 +285,45 @@
                 "amazon"
             ],
             "definition": {
-  "name": "AnswerFallbackC",
-  "type": "custom",
-  "utterances": [
-    {
-      "raw": "see",
-      "model": [
-        {
-          "text": "see"
+                "name": "AnswerFallbackC",
+                "type": "custom",
+                "utterances": [
+                    {
+                        "raw": "see",
+                        "model": [
+                            {
+                                "text": "see"
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "it's see",
+                        "model": [
+                            {
+                                "text": "it's see"
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "is it see",
+                        "model": [
+                            {
+                                "text": "is it see"
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "the answer is see",
+                        "model": [
+                            {
+                                "text": "the answer is see"
+                            }
+                        ]
+                    }
+                ]
+            }
         }
-      ]
-    },
-    {
-      "raw": "it's see",
-      "model": [
-        {
-          "text": "it's see"
-        }
-      ]
-    },
-    {
-      "raw": "is it see",
-      "model": [
-        {
-          "text": "is it see"
-        }
-      ]
-    },
-    {
-      "raw": "the answer is see",
-      "model": [
-        {
-          "text": "the answer is see"
-        }
-      ]
-    }
-  ]
-}
-        }
-    ], 
+    ],
     "AnswerFallbackD": [
         {
             "platforms": [
@@ -194,145 +331,43 @@
                 "amazon"
             ],
             "definition": {
-  "name": "AnswerFallbackD",
-  "type": "custom",
-  "utterances": [
-    {
-      "raw": "die",
-      "model": [
-        {
-          "text": "die"
-        }
-      ]
-    },
-    {
-      "raw": "it's die",
-      "model": [
-        {
-          "text": "it's die"
-        }
-      ]
-    },
-    {
-      "raw": "is it die",
-      "model": [
-        {
-          "text": "is it die"
-        }
-      ]
-    },
-    {
-      "raw": "the answer is die",
-      "model": [
-        {
-          "text": "the answer is die"
-        }
-      ]
-    }
-  ]
-}
-        }
-    ],
-     "GiveAnswerIntent": [
-        {
-            "platforms": [
-                "dialogflow",
-                "amazon"
-            ],
-            "definition": {
-  "name": "GiveAnswerIntent",
-  "type": "custom",
-  "utterances": [
-    {
-      "raw": "answer",
-      "model": [
-        {
-          "text": "answer",
-          "type": "@convo-core.any",
-          "slot_value": "answer"
-        }
-      ]
-    },
-    {
-      "raw": "is it maybe answer",
-      "model": [
-        {
-          "text": "is it maybe"
-        },
-        {
-          "text": "answer",
-          "type": "@convo-core.any",
-          "slot_value": "answer"
-        }
-      ]
-    },
-    {
-      "raw": "is it answer",
-      "model": [
-        {
-          "text": "is it"
-        },
-        {
-          "text": "answer",
-          "type": "@convo-core.any",
-          "slot_value": "answer"
-        }
-      ]
-    },
-    {
-      "raw": "a answer",
-      "model": [
-        {
-          "text": "a"
-        },
-        {
-          "text": "answer",
-          "type": "@convo-core.any",
-          "slot_value": "answer"
-        }
-      ]
-    },
-    {
-      "raw": "b answer",
-      "model": [
-        {
-          "text": "b"
-        },
-        {
-          "text": "answer",
-          "type": "@convo-core.any",
-          "slot_value": "answer"
-        }
-      ]
-    },
-    {
-      "raw": "c answer",
-      "model": [
-        {
-          "text": "c"
-        },
-        {
-          "text": "answer",
-          "type": "@convo-core.any",
-          "slot_value": "answer"
-        }
-      ]
-    },
-    {
-      "raw": "d answer",
-      "model": [
-        {
-          "text": "d"
-        },
-        {
-          "text": "answer",
-          "type": "@convo-core.any",
-          "slot_value": "answer"
-        }
-      ]
-    }
-  ]
-}
+                "name": "AnswerFallbackD",
+                "type": "custom",
+                "utterances": [
+                    {
+                        "raw": "die",
+                        "model": [
+                            {
+                                "text": "die"
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "it's die",
+                        "model": [
+                            {
+                                "text": "it's die"
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "is it die",
+                        "model": [
+                            {
+                                "text": "is it die"
+                            }
+                        ]
+                    },
+                    {
+                        "raw": "the answer is die",
+                        "model": [
+                            {
+                                "text": "the answer is die"
+                            }
+                        ]
+                    }
+                ]
+            }
         }
     ]
 }

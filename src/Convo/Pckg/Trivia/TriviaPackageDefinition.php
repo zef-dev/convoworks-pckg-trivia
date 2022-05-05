@@ -50,16 +50,16 @@ class TriviaPackageDefinition extends AbstractPackageDefinition
         $model     =   new EntityModel( 'letter', false);
         $model->load( ['values' => [[
             'value' => 'a',
-            'synonyms' => [ 'A', 'a.']
+            'synonyms' => [ 'A.', 'A', 'a.']
         ], [
             'value' => 'b',
-            'synonyms' => [ 'B', 'b.']
+            'synonyms' => [ 'B.', 'B', 'b.']
         ], [
             'value' => 'c',
-            'synonyms' => [ 'C', 'c.']
+            'synonyms' => [ 'C.', 'C', 'c.']
         ], [
             'value' => 'd',
-            'synonyms' => [ 'D', 'd.']
+            'synonyms' => [ 'D.', 'D', 'd.']
         ]
         ]]);
 

@@ -89,7 +89,13 @@ class TriviaRoundBlock extends \Convo\Pckg\Core\Elements\ConversationBlock imple
 			}
 		}
 
-		$reader   =   new \Convo\Pckg\Core\Filters\ConvoIntentReader(['intent' => 'convo-trivia.LetterAnswerIntent'], $this->_packageProviderFactory);
+		$reader   =   new \Convo\Pckg\Core\Filters\ConvoIntentReader(
+			[
+				'intent' => 'convo-trivia.LetterAnswerIntent',
+				'required_slots' => ['letter']
+			],
+			$this->_packageProviderFactory
+		);
 		$reader->setLogger($this->_logger);
 		$reader->setService($this->getService());
 		$readers[]    =   $reader;
@@ -130,13 +136,6 @@ class TriviaRoundBlock extends \Convo\Pckg\Core\Elements\ConversationBlock imple
 			'values' => [
 				'letter' => 'd'
 			]
-		], $this->_packageProviderFactory);
-		$reader->setLogger($this->_logger);
-		$reader->setService($this->getService());
-		$readers[]    =   $reader;
-
-		$reader   =   new \Convo\Pckg\Core\Filters\ConvoIntentReader([
-			'intent' => 'convo-trivia.GiveAnswerIntent'
 		], $this->_packageProviderFactory);
 		$reader->setLogger($this->_logger);
 		$reader->setService($this->getService());
@@ -295,9 +294,19 @@ class TriviaRoundBlock extends \Convo\Pckg\Core\Elements\ConversationBlock imple
 	 */
 	public function run(\Convo\Core\Workflow\IConvoRequest $request, \Convo\Core\Workflow\IConvoResponse $response)
 	{
-		$status    =   $this->_loadItem();
+		try {
+			$filter    =   $this->_chooseFilter($request);
+		} catch (\Exception $e) {
+			$this->_logger->warning($e->getMessage());
+			
+			foreach ($this->getFallback() as $fallback) {
+				$fallback->read($request, $response);
+			}
 
-		$filter    =   $this->_chooseFilter($request);
+			return;
+		}
+
+		$status    =   $this->_loadItem();
 		$result    =   $filter->filter($request);
 
 		if ($result->isEmpty()) {
@@ -305,16 +314,24 @@ class TriviaRoundBlock extends \Convo\Pckg\Core\Elements\ConversationBlock imple
 			return;
 		}
 
-		if ($this->_isCorrect($request, $result)) {
+		if ($result->isSlotEmpty('letter')) {
+			foreach ($this->getFallback() as $fallback) {
+				$fallback->read($request, $response);
+			}
+
+			return;
+		}
+
+		if ($this->_isCorrect($result)) {
 			$this->_logger->debug('Reading answer ok flow');
 			foreach ($this->_answeredOk as $element) {
-				/* @var $element \Convo\Core\Workflow\IConversationElement */
+				/** @var \Convo\Core\Workflow\IConversationElement $element */
 				$element->read($request, $response);
 			}
 		} else {
 			$this->_logger->debug('Reading answer nok flow');
 			foreach ($this->_answeredNok as $element) {
-				/* @var $element \Convo\Core\Workflow\IConversationElement */
+				/** @var \Convo\Core\Workflow\IConversationElement $element */
 				$element->read($request, $response);
 			}
 		}
@@ -322,7 +339,7 @@ class TriviaRoundBlock extends \Convo\Pckg\Core\Elements\ConversationBlock imple
 		if ($status['last_question']) {
 			// last process was done
 			foreach ($this->_done as $element) {
-				/* @var $element \Convo\Core\Workflow\IConversationElement */
+				/** @var \Convo\Core\Workflow\IConversationElement $element */
 				$element->read($request, $response);
 			}
 			return;
@@ -398,53 +415,18 @@ class TriviaRoundBlock extends \Convo\Pckg\Core\Elements\ConversationBlock imple
 	}
 
 	// COMMON
-	private function _isCorrect(\Convo\Core\Workflow\IConvoRequest $request, IRequestFilterResult $result)
+	private function _isCorrect(IRequestFilterResult $result)
 	{
+		$letter = $result->getSlotValue('letter');
 
-		if ($result->isSlotEmpty('letter') && $result->isSlotEmpty('letter') && !empty($request->getText())) {
-			$this->_logger->debug('EMpty data. Will check text [' . $request->getText() . '] and replace result');
-			$result =   $this->filter($request);
-			$this->_logger->debug('New result [' . $result . ']');
+		if (strlen($letter) !== 1) {
+			throw new \Exception('Got unintended string for letter ['.$letter.']');
 		}
 
-		if (!$result->isSlotEmpty('letter')) {
-			$letter            =   $result->getSlotValue('letter');
+		$correct_letter = $this->evaluateString($this->_correctLetter);
+		$this->_logger->debug('Checking letter ['.$letter.'] against correct one ['.$correct_letter.']');
 
-			// if( strtolower( $letter) == 'b.') {
-			//     $letter =   trim( $letter, '.');
-			// }
-
-			if (strlen($letter) === 2 && strpos($letter, '.') === 1) {
-				$letter = trim($letter, '.');
-			}
-
-			$correct_letter    =   $this->evaluateString($this->_correctLetter);
-			$this->_logger->debug('Checking letter [' . $letter . '] against correct one [' . $correct_letter . ']');
-
-			return strtolower($letter) === strtolower($correct_letter);
-		}
-
-		if (!$result->isSlotEmpty('answer'))
-		{
-			$user_answer = $result->getSlotValue('answer');
-
-			if (\preg_match("/^[a-z]{1}\.?$/i", $user_answer) !== 0) { // Stray letter in answer slot
-				$letter = strtolower(substr($user_answer, 0, 1));
-				$correct_letter = strtolower($this->evaluateString($this->_correctLetter));
-
-				$this->_logger->info('Checking stray letter ['.$letter.'] against actual correct ['.$correct_letter.']');
-				return $letter === $correct_letter;
-			}
-
-			$user_answer = strtolower($this->_cleanAnswer($user_answer));
-			$correct_answer = strtolower($this->_cleanAnswer($this->evaluateString($this->_correctAnswer)));
-
-			$this->_logger->debug('Checking answer [' . $user_answer . '] against correct one [' . $correct_answer . ']');
-
-			return $user_answer === $correct_answer;
-		}
-
-		throw new \Exception('Neither letter or answer slots are populated');
+		return strtolower($letter) === strtolower($correct_letter);
 	}
 
 	/**
