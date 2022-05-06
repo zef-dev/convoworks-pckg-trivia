@@ -23,6 +23,21 @@
                         ]
                     },
                     {
+                        "raw": "d two thousand",
+                        "model": [
+                            {
+                                "type": "convo-trivia.letter",
+                                "text": "d",
+                                "slot_value": "letter"
+                            },
+                            {
+                                "type": "convo-core.number",
+                                "text": "two thousand",
+                                "slot_value": "number"
+                            }
+                        ]
+                    },
+                    {
                         "raw": "c ursus maritimus",
                         "model": [
                             {
