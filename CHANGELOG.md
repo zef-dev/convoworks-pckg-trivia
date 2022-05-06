@@ -4,6 +4,9 @@
 
 ## [Releases]
 
+## 1.2.1 - 2022-05-06
+* Add missing utterance to `LetterAnswerIntent`
+
 ## 1.2.0 - 2022-05-05
 * Rework Trivia Round Block so that it only accepts letters
 * Fix fallback never being read
