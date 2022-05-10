@@ -417,7 +417,7 @@ class TriviaRoundBlock extends \Convo\Pckg\Core\Elements\ConversationBlock imple
 	// COMMON
 	private function _isCorrect(IRequestFilterResult $result)
 	{
-		$letter = $result->getSlotValue('letter');
+		$letter = strtolower(trim($result->getSlotValue('letter'), ". \t\n\r\0\x0B"));
 
 		if (strlen($letter) !== 1) {
 			throw new \Exception('Got unintended string for letter ['.$letter.']');
