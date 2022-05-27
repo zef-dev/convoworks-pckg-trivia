@@ -1,8 +1,8 @@
 {
-    "template_id" : "multi",
-    "name" : "Trivia Multiplayer",
-    "description" : "Template for trivia multiplayer quiz",
-    "service" : {
+    "template_id": "trivia-multiplayer",
+    "name": "Trivia Multiplayer",
+    "description": "A trivia multiplayer quiz template",
+    "service": {
         "convo_service_version": 38,
         "packages": [
             "convo-core",
@@ -4273,9 +4273,6 @@
                 }
             }
         ],
-        "time_updated": 1651159355,
-        "intents_time_updated": 1651159343,
-        "properties": [],
-        "name": "Trivia multiplayer"
+        "properties": []
     }
 }
