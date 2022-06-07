@@ -4,6 +4,9 @@
 
 ## [Releases]
 
+## 1.2.3 - 2022-06-07
+* Use evaluate string from parent
+
 ## 1.2.2 - 2022-05-10
 * Trim and clean letter before parsing
 
