@@ -602,7 +602,8 @@
                                                             }
                                                         ],
                                                         "done": [],
-                                                        "should_reset": true,
+                                                        "should_reset": null,
+                                                        "wraparound": true,
                                                         "_component_id": "qixeojbk-clke-eglu-gaqc-wokbm6on0clh"
                                                     }
                                                 }
@@ -756,7 +757,8 @@
                                     }
                                 ],
                                 "done": [],
-                                "should_reset": true,
+                                "should_reset": null,
+                                "wraparound": true,
                                 "_component_id": "qewy0ozo-5tad-qzmt-jee9-yf4knjs622la"
                             }
                         },

@@ -2148,7 +2148,8 @@
                                     }
                                 ],
                                 "done": [],
-                                "should_reset": true,
+                                "should_reset": null,
+                                "wraparound": true,
                                 "_component_id": "y64saxdy-kjxo-p4kh-t3nl-58o3y0fx1egv"
                             }
                         },
