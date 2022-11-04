@@ -66,6 +66,7 @@ class TriviaPackageDefinition extends AbstractPackageDefinition
         $entities['letter'] =   new SystemEntity( 'letter');
         $entities['letter']->setPlatformModel( 'amazon', $model);
         $entities['letter']->setPlatformModel( 'dialogflow', $model);
+        $entities['letter']->setPlatformModel( 'dialogflow_es', $model);
 
         return $entities;
     }

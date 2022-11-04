@@ -3,6 +3,7 @@
         {
             "platforms": [
                 "dialogflow",
+                "dialogflow_es",
                 "amazon"
             ],
             "definition": {
@@ -189,6 +190,7 @@
         {
             "platforms": [
                 "dialogflow",
+                "dialogflow_es",
                 "amazon"
             ],
             "definition": {
@@ -251,6 +253,7 @@
         {
             "platforms": [
                 "dialogflow",
+                "dialogflow_es",
                 "amazon"
             ],
             "definition": {
@@ -297,6 +300,7 @@
         {
             "platforms": [
                 "dialogflow",
+                "dialogflow_es",
                 "amazon"
             ],
             "definition": {
@@ -343,6 +347,7 @@
         {
             "platforms": [
                 "dialogflow",
+                "dialogflow_es",
                 "amazon"
             ],
             "definition": {
