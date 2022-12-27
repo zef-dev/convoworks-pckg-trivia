@@ -4,6 +4,10 @@
 
 ## [Releases]
 
+## 1.3.0 - 2022-12-27
+
+* Add dialogflow_es for entities
+
 ## 1.2.3 - 2022-06-07
 * Use evaluate string from parent
 
