@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Convo\Pckg\Trivia;
 
@@ -12,7 +14,7 @@ use function PHPSTORM_META\map;
 
 class TriviaPackageDefinition extends AbstractPackageDefinition
 {
-    const NAMESPACE	=	'convo-trivia';
+    const NAMESPACE    =    'convo-trivia';
 
     /**
      * @var \Convo\Core\Factory\PackageProviderFactory
@@ -24,22 +26,22 @@ class TriviaPackageDefinition extends AbstractPackageDefinition
      */
     private $_httpFactory;
 
-    public function __construct( \Psr\Log\LoggerInterface $logger, \Convo\Core\Factory\PackageProviderFactory $packageProviderFactory, \Convo\Core\Util\IHttpFactory $httpFactory)
+    public function __construct(\Psr\Log\LoggerInterface $logger, \Convo\Core\Factory\PackageProviderFactory $packageProviderFactory, \Convo\Core\Util\IHttpFactory $httpFactory)
     {
         $this->_packageProviderFactory = $packageProviderFactory;
         $this->_httpFactory = $httpFactory;
 
-        parent::__construct( $logger, self::NAMESPACE, __DIR__);
+        parent::__construct($logger, self::NAMESPACE, __DIR__);
 
-        $this->addTemplate( $this->_loadFile(__DIR__ . '/convo-trivia.template.json'));
-        $this->addTemplate( $this->_loadFile(__DIR__ . '/convo-trivia-multiplayer.template.json'));
+        // $this->addTemplate( $this->_loadFile(__DIR__ . '/convo-trivia.template.json'));
+        // $this->addTemplate( $this->_loadFile(__DIR__ . '/convo-trivia-multiplayer.template.json'));
 
     }
 
 
     protected function _initIntents()
     {
-        return $this->_loadIntents( __DIR__ .'/system-intents.json');
+        return $this->_loadIntents(__DIR__ . '/system-intents.json');
     }
 
 
@@ -47,26 +49,30 @@ class TriviaPackageDefinition extends AbstractPackageDefinition
     {
         $entities  =    [];
 
-        $model     =   new EntityModel( 'letter', false);
-        $model->load( ['values' => [[
-            'value' => 'a',
-            'synonyms' => [ 'A.', 'A', 'a.']
-        ], [
-            'value' => 'b',
-            'synonyms' => [ 'B.', 'B', 'b.']
-        ], [
-            'value' => 'c',
-            'synonyms' => [ 'C.', 'C', 'c.']
-        ], [
-            'value' => 'd',
-            'synonyms' => [ 'D.', 'D', 'd.']
-        ]
+        $model     =   new EntityModel('letter', false);
+        $model->load(['values' => [
+            [
+                'value' => 'a',
+                'synonyms' => ['A.', 'A', 'a.']
+            ],
+            [
+                'value' => 'b',
+                'synonyms' => ['B.', 'B', 'b.']
+            ],
+            [
+                'value' => 'c',
+                'synonyms' => ['C.', 'C', 'c.']
+            ],
+            [
+                'value' => 'd',
+                'synonyms' => ['D.', 'D', 'd.']
+            ]
         ]]);
 
-        $entities['letter'] =   new SystemEntity( 'letter');
-        $entities['letter']->setPlatformModel( 'amazon', $model);
-        $entities['letter']->setPlatformModel( 'dialogflow', $model);
-        $entities['letter']->setPlatformModel( 'dialogflow_es', $model);
+        $entities['letter'] =   new SystemEntity('letter');
+        $entities['letter']->setPlatformModel('amazon', $model);
+        $entities['letter']->setPlatformModel('dialogflow', $model);
+        $entities['letter']->setPlatformModel('dialogflow_es', $model);
 
         return $entities;
     }
@@ -238,16 +244,16 @@ class TriviaPackageDefinition extends AbstractPackageDefinition
                         'type' => 'file',
                         'filename' => 'trivia-round-block.html'
                     ),
-                    '_factory' => new class ( $this->_packageProviderFactory) implements \Convo\Core\Factory\IComponentFactory
+                    '_factory' => new class($this->_packageProviderFactory) implements \Convo\Core\Factory\IComponentFactory
                     {
                         private $_packageProviderFactory;
-                        public function __construct( \Convo\Core\Factory\PackageProviderFactory $packageProviderFactory)
+                        public function __construct(\Convo\Core\Factory\PackageProviderFactory $packageProviderFactory)
                         {
-                            $this->_packageProviderFactory	=	$packageProviderFactory;
+                            $this->_packageProviderFactory    =    $packageProviderFactory;
                         }
-                        public function createComponent( $properties, $service)
+                        public function createComponent($properties, $service)
                         {
-                            return new \Convo\Pckg\Trivia\TriviaRoundBlock( $properties, $service, $this->_packageProviderFactory);
+                            return new \Convo\Pckg\Trivia\TriviaRoundBlock($properties, $service, $this->_packageProviderFactory);
                         }
                     }
                 )
@@ -400,15 +406,15 @@ class TriviaPackageDefinition extends AbstractPackageDefinition
                     '_preview_angular' => [
                         'type' => 'html',
                         'template' => '<div class="code">' .
-                        'Get {{ component.properties.amount }} question(s) from OpenTDB quiz category <code>{{ component.properties.category }}</code>' .
-                        '</div>'
+                            'Get {{ component.properties.amount }} question(s) from OpenTDB quiz category <code>{{ component.properties.category }}</code>' .
+                            '</div>'
                     ],
                     '_workflow' => 'read',
                     '_help' => [
                         'type' => 'file',
                         'filename' => 'opentdb-trivia-adapter-element.html'
                     ],
-                    '_factory' => new class ($this->_httpFactory) implements IComponentFactory
+                    '_factory' => new class($this->_httpFactory) implements IComponentFactory
                     {
                         private $_httpFactory;
 
