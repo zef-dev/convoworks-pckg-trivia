@@ -4,6 +4,10 @@
 
 ## [Releases]
 
+## 1.3.1 - 2025-04-16
+
+* Remove service templates
+
 ## 1.3.0 - 2022-12-27
 
 * Add dialogflow_es for entities
